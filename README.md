@@ -36,3 +36,4 @@ The production platform authenticates requests; never expose the local developme
 
 ## Validation completed
 TypeScript check and production build. Local API tests cover anonymous privacy, authentication, reservation persistence, duplicate and repeated-request guards, early check-in rejection, stable arrival time when the queue changes, successful rescheduling, invalid-slot rollback, chat persistence, rename/deletion, temporary chats and cancellation. Browser review covers Gujarati/English/Hindi and phone-width rendering.
+"# Quless_Gov_Office" 
