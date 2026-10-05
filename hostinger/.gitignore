@@ -1,0 +1,7 @@
+node_modules/
+dist/
+public/_private/config.php
+public/_private/source-cache/
+**/*service-account*.json
+.env*
+*.log
