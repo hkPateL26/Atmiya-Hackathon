@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>QueueLess Kacheri – NagrikSeva AI (Phase 2 Master)</title>
+  <meta name="description" content="39+ Official Gujarat Government Schemes, CamScanner Guide, 3-Year Expiry AI Document Validator, and Live Kacheri Queue Radar.">
+  <meta name="theme-color" content="#003366">
+  <!-- Tailwind CSS via CDN with Official Government Palette -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            govNavy: '#003366',       // Primary — Deep Navy Blue
+            govBlue: '#005A9C',       // Secondary — Government Blue
+            govSaffron: '#FF9933',    // Accent — Saffron
+            govGreen: '#138808',      // Success — India Green
+            govBg: '#F5F7FA',         // Background — Off White
+            govText: '#1F2937',       // Text — Dark Gray
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @keyframes pulse-slow { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.85; transform: scale(1.02); } }
+    @keyframes scan-beam { 0% { top: 15%; } 50% { top: 85%; } 100% { top: 15%; } }
+    .animate-scan { animation: scan-beam 2.2s ease-in-out infinite; }
+    .qr-pattern {
+      background-image: 
+        radial-gradient(#003366 2px, transparent 2px),
+        radial-gradient(#003366 2px, transparent 2px);
+      background-size: 8px 8px;
+      background-position: 0 0, 4px 4px;
+    }
+  </style>
+</head>
+<body class="bg-[#F5F7FA] text-[#1F2937] antialiased min-h-screen flex flex-col font-sans selection:bg-[#FF9933] selection:text-white">
+
+  <!-- TOP GOV BANNER (Primary Deep Navy Blue #003366) -->
+  <header class="bg-[#003366] text-white text-xs border-b border-blue-900 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-9 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="flex items-center gap-1.5 font-semibold text-white">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-[#138808] animate-pulse"></span>
+          <span>GSDC Gandhinagar • Live Synced</span>
+        </span>
+        <span class="text-blue-300/40 hidden sm:inline">|</span>
+        <span class="text-blue-200 hidden sm:inline font-mono text-[11px]">GRTSA 2013 Certified • 42ms</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Trilingual Switcher -->
+        <div class="flex items-center bg-[#002244] rounded-lg p-0.5 border border-blue-800 text-[11px]">
+          <button onclick="setLanguage('en')" id="btn-lang-en" class="px-2 py-0.5 rounded font-bold transition bg-[#005A9C] text-white">EN</button>
+          <button onclick="setLanguage('gu')" id="btn-lang-gu" class="px-2 py-0.5 rounded font-bold transition text-blue-200 hover:text-white">ગુજરાતી</button>
+          <button onclick="setLanguage('hi')" id="btn-lang-hi" class="px-2 py-0.5 rounded font-bold transition text-blue-200 hover:text-white">हिंदी</button>
+        </div>
+
+        <!-- ⚡ 1-CLICK DEMO FILL DROPDOWN (Accent Saffron #FF9933) -->
+        <div class="relative">
+          <button onclick="toggleDemoDropdown()" class="bg-[#FF9933] hover:bg-amber-600 text-slate-900 font-extrabold px-3 py-1 rounded-md text-[11px] shadow-sm flex items-center gap-1.5 transition active:scale-95">
+            <i class="fa-solid fa-bolt"></i>
+            <span>1-Click Demo Fill</span>
+            <i class="fa-solid fa-chevron-down text-[9px]"></i>
+          </button>
+          <div id="demoDropdown" class="hidden absolute right-0 mt-1 w-64 bg-white rounded-xl shadow-2xl border border-slate-200 py-1.5 z-50 text-[#1F2937] text-left">
+            <div class="px-3 py-1 text-[10px] font-bold tracking-wider text-[#003366] uppercase">ઝડપી લૉગિન (Quick Login)</div>
+            <button onclick="loginAsDemo('farmer')" class="w-full text-left px-3 py-2 text-xs font-semibold hover:bg-amber-50 flex items-center gap-2.5 text-[#1F2937] hover:text-[#005A9C]">
+              <span class="w-6 h-6 rounded-lg bg-amber-100 text-[#FF9933] flex items-center justify-center text-xs">👤</span>
+              <div>
+                <p class="font-bold leading-tight">નાગરિક લૉગિન (Nagrik Login)</p>
+                <p class="text-[10px] text-slate-400 font-normal">Mohanbhai Patel • Rajkot Rural</p>
+              </div>
+            </button>
+            <button onclick="loginAsDemo('officer')" class="w-full text-left px-3 py-2 text-xs font-semibold hover:bg-blue-50 flex items-center gap-2.5 text-[#1F2937] hover:text-[#005A9C]">
+              <span class="w-6 h-6 rounded-lg bg-blue-100 text-[#005A9C] flex items-center justify-center text-xs">🏛️</span>
+              <div>
+                <p class="font-bold leading-tight">કચેરી લૉગિન (Kacheri Login)</p>
+                <p class="text-[10px] text-slate-400 font-normal">Counter 1 • Gondal Mamlatdar</p>
+              </div>
+            </button>
+            <div class="border-t border-slate-100 my-1"></div>
+            <button onclick="resetDemoSession()" class="w-full text-left px-3 py-1.5 text-[11px] text-red-600 hover:bg-red-50 font-bold flex items-center gap-2">
+              <i class="fa-solid fa-rotate-right text-[10px]"></i>
+              <span>રીસેટ સેશન (Reset Session)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN NAVIGATION -->
+  <nav class="bg-white border-b border-slate-200 sticky top-9 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" onclick="showView('landing')" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-[#003366] text-white flex items-center justify-center font-black text-xl shadow-md border-2 border-[#FF9933]">
+          Q
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-lg sm:text-xl tracking-tight text-[#003366] leading-none">QueueLess</span>
+            <span class="text-[10px] bg-amber-50 text-[#FF9933] border border-amber-200 px-1.5 py-0.5 rounded font-extrabold">કચેરી</span>
+          </div>
+          <p class="text-[10px] text-slate-500 font-medium">Government Office Queue Management System</p>
+        </div>
+      </a>
+
+      <!-- Desktop Links -->
+      <div class="hidden md:flex items-center gap-7 text-xs font-bold text-slate-600">
+        <button onclick="showView('landing')" id="navLinkHome" class="text-[#005A9C] hover:text-[#003366]">Home</button>
+        <button onclick="showView('services')" id="navLinkServices" class="hover:text-[#005A9C] transition flex items-center gap-1.5">
+          <span>Services (39 Yojanas)</span>
+          <span class="text-[9px] bg-[#FF9933] text-slate-900 px-1.5 py-0.2 rounded-full font-bold">New</span>
+        </button>
+        <button onclick="showView('dashboard')" id="navLinkRadar" class="hover:text-[#005A9C] transition">Offices Radar</button>
+        <button onclick="loginAsDemo('farmer')" class="hover:text-[#005A9C] transition">Track Token</button>
+        <button onclick="triggerHaptic('tap')" class="text-slate-400 hover:text-slate-600">Help & Support</button>
+      </div>
+
+      <!-- Auth Action -->
+      <div class="flex items-center gap-3">
+        <div id="authGuestButtons" class="flex items-center gap-2">
+          <button onclick="openAuthModal()" class="px-3.5 py-2 rounded-xl text-xs font-bold text-[#003366] hover:bg-slate-100 transition border border-slate-200">
+            Login
+          </button>
+          <button onclick="showView('services')" class="px-4 py-2 rounded-xl text-xs font-bold bg-[#005A9C] hover:bg-[#003366] text-white shadow-sm transition active:scale-95">
+            Explore 39 Yojanas
+          </button>
+        </div>
+
+        <div id="authUserPill" class="hidden flex items-center gap-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl">
+          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rajesh" alt="Avatar" class="w-6 h-6 rounded-full bg-amber-200">
+          <div class="text-left text-xs leading-none">
+            <p id="userNameDisplay" class="font-extrabold text-[#003366]">Mohanbhai Patel</p>
+            <p id="userRoleDisplay" class="text-[9.5px] text-[#FF9933] font-bold">Citizen • Rajkot Rural</p>
+          </div>
+          <button onclick="resetDemoSession()" class="ml-1 text-slate-400 hover:text-red-500 text-xs" title="Logout">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================== -->
+  <!-- VIEW 1: CITIZEN LANDING PAGE               -->
+  <!-- ========================================== -->
+  <main id="viewLanding" class="flex-1">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-12 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      
+      <div class="lg:col-span-7 space-y-5">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200/80 text-[#003366] text-xs font-semibold">
+          <i class="fa-solid fa-shield-halved text-[#005A9C]"></i>
+          <span>Digital India • Trusted by Gujarat Govt Departments</span>
+          <i class="fa-solid fa-circle-check text-[#138808] text-[11px]"></i>
+        </div>
+
+        <h1 id="heroTitle" class="text-4xl sm:text-5xl font-black text-[#003366] tracking-tight leading-[1.15]">
+          Skip The Queue, <br class="hidden sm:inline">
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#005A9C] via-[#FF9933] to-[#003366]">Not Your Work</span>
+        </h1>
+
+        <p id="heroSubtitle" class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-xl">
+          Book virtual slot tokens for Mamlatdar offices, Jan Seva Kendras, Aadhaar, RTO, and Taluka Panchayat. Pre-verify 3-year certificate validity and avoid rejected trips.
+        </p>
+
+        <!-- Search Bar with Button -->
+        <div class="bg-white p-2 sm:p-2.5 rounded-2xl shadow-xl border border-slate-200/90 flex flex-col sm:flex-row gap-2 max-w-xl">
+          <div class="flex items-center gap-3 px-3 flex-1 py-1 sm:py-0">
+            <i class="fa-solid fa-magnifying-glass text-slate-400 text-base"></i>
+            <input type="text" id="searchInput" placeholder="Search: ટ્રેક્ટર સહાય, MYSY, આવાસ, આવકનો દાખલો..." class="w-full text-xs sm:text-sm bg-transparent outline-none text-[#1F2937] placeholder-slate-400 font-medium">
+          </div>
+          <button onclick="handleSearchToServices()" class="bg-[#005A9C] hover:bg-[#003366] text-white font-bold px-5 py-3 rounded-xl text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition active:scale-95 whitespace-nowrap">
+            <span>Explore 39 Yojanas</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 pt-1 text-xs text-slate-500 font-medium">
+          <div class="flex items-center gap-1.5">
+            <i class="fa-solid fa-location-dot text-[#FF9933]"></i>
+            <span>33 Districts & 250+ Talukas</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <i class="fa-solid fa-lock text-[#138808]"></i>
+            <span>Secure 2FA & GRTSA Compliant</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <i class="fa-solid fa-clock text-[#005A9C]"></i>
+            <span>Live Updates 24/7</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Content: 3D Floating Token Card Mockup -->
+      <div class="lg:col-span-5 flex justify-center">
+        <div class="relative w-full max-w-[340px]">
+          <div class="absolute -inset-3 bg-gradient-to-tr from-[#005A9C]/20 via-[#FF9933]/20 to-[#138808]/20 rounded-3xl blur-xl"></div>
+          
+          <div class="relative bg-white rounded-3xl p-6 shadow-2xl border border-slate-200/80 transition-transform duration-300 hover:scale-[1.02]">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Your Virtual Token</span>
+              <span class="bg-emerald-50 text-[#138808] border border-emerald-200 text-[10px] font-black px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#138808] animate-ping"></span>
+                ACTIVE
+              </span>
+            </div>
+
+            <div class="text-center py-2">
+              <h2 class="text-5xl font-black text-[#003366] tracking-tight">B-1247</h2>
+              <p class="text-xs font-bold text-slate-600 mt-1">Gondal Jan Seva Kendra – Rajkot</p>
+            </div>
+
+            <div class="mt-4 bg-amber-50 border border-amber-200/80 rounded-2xl p-3 flex items-center justify-between">
+              <div>
+                <p class="text-[11px] text-amber-800 font-semibold">Estimated wait:</p>
+                <p class="text-base font-black text-amber-950">12 mins</p>
+              </div>
+              <div class="w-9 h-9 rounded-xl bg-amber-100 text-[#FF9933] flex items-center justify-center text-base">
+                <i class="fa-regular fa-clock"></i>
+              </div>
+            </div>
+
+            <div class="mt-5 flex flex-col items-center">
+              <div class="w-36 h-36 bg-[#003366] rounded-2xl p-2.5 shadow-inner flex items-center justify-center relative overflow-hidden group cursor-pointer" onclick="triggerHaptic('success')">
+                <div class="w-full h-full bg-white rounded-xl p-2 flex flex-col justify-between">
+                  <div class="flex justify-between">
+                    <div class="w-6 h-6 border-4 border-[#003366] rounded-sm p-0.5"><div class="w-full h-full bg-[#003366]"></div></div>
+                    <div class="w-6 h-6 border-4 border-[#003366] rounded-sm p-0.5"><div class="w-full h-full bg-[#003366]"></div></div>
+                  </div>
+                  <div class="qr-pattern flex-1 my-1"></div>
+                  <div class="flex justify-between items-end">
+                    <div class="w-6 h-6 border-4 border-[#003366] rounded-sm p-0.5"><div class="w-full h-full bg-[#003366]"></div></div>
+                    <span class="text-[8px] font-mono font-bold text-[#003366]">QLESS-GP</span>
+                  </div>
+                </div>
+              </div>
+              <p class="text-[11px] font-bold text-slate-500 mt-2 flex items-center gap-1.5">
+                <i class="fa-solid fa-qrcode text-slate-400"></i>
+                <span>Scan at Office Entry (Doorstep Check-in)</span>
+              </p>
+            </div>
+
+            <button onclick="loginAsDemo('farmer')" class="w-full mt-4 bg-[#003366] hover:bg-[#002244] text-white font-bold py-2.5 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5">
+              <span>View Full Live Radar</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 39 YOJANAS BENTO PREVIEW ON HOME PAGE -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 py-6 border-t border-slate-200">
+      <div id="homeCatalogContainer"></div>
+    </section>
+  </main>
+
+  <!-- ========================================================= -->
+  <!-- VIEW: SERVICES & 39 YOJANAS CATALOG (PHASE 2 ENGINE)      -->
+  <!-- ========================================================= -->
+  <main id="viewServices" class="hidden flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 w-full">
+    <div id="fullCatalogContainer"></div>
+  </main>
+
+  <!-- ======================================================= -->
+  <!-- VIEW 2: CITIZEN LIVE RADAR & DASHBOARD                  -->
+  <!-- ======================================================= -->
+  <section id="viewDashboard" class="hidden flex-1 bg-[#F5F7FA] flex flex-col md:flex-row">
+    <!-- LEFT SIDEBAR -->
+    <aside class="w-full md:w-64 bg-[#003366] text-white flex flex-col justify-between shrink-0">
+      <div>
+        <div class="p-5 border-b border-blue-900/60 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-[#FF9933] text-slate-900 flex items-center justify-center font-black text-sm">
+            Q
+          </div>
+          <div>
+            <h3 class="font-extrabold text-white text-sm">QueueLess Kacheri</h3>
+            <p class="text-[10px] text-blue-200">GovTech | Digital Gujarat</p>
+          </div>
+        </div>
+
+        <nav class="p-3 space-y-1 text-xs font-bold">
+          <button class="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl bg-[#005A9C] text-white shadow-xs">
+            <i class="fa-solid fa-table-cells-large text-base w-5"></i>
+            <span>Dashboard</span>
+          </button>
+          <button onclick="showView('services')" class="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-blue-200 hover:text-white hover:bg-blue-900/50 transition">
+            <i class="fa-solid fa-layer-group text-base w-5"></i>
+            <span>Services (39 Yojanas)</span>
+          </button>
+          <button onclick="triggerHaptic('tap')" class="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-blue-200 hover:text-white hover:bg-blue-900/50 transition">
+            <i class="fa-solid fa-clock-rotate-left text-base w-5"></i>
+            <span>History</span>
+          </button>
+          <button onclick="triggerHaptic('tap')" class="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-blue-200 hover:text-white hover:bg-blue-900/50 transition">
+            <i class="fa-regular fa-user text-base w-5"></i>
+            <span>Profile</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="p-4 border-t border-blue-900/60 flex items-center gap-2">
+        <div class="w-7 h-7 rounded-full bg-amber-400/20 text-[#FF9933] flex items-center justify-center text-xs">
+          🇮🇳
+        </div>
+        <div class="text-[10px] leading-tight">
+          <p class="font-bold text-white">Digital Gujarat</p>
+          <p class="text-blue-200">NIC & GSDC Standard</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT DASHBOARD BODY -->
+    <div class="flex-1 flex flex-col min-w-0">
+      <header class="bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-bold text-slate-400 uppercase hidden sm:inline">Live District:</span>
+          <div class="flex items-center gap-2 bg-[#F5F7FA] border border-slate-200 px-3 py-1.5 rounded-xl text-xs font-bold text-[#003366]">
+            <span>🇮🇳</span>
+            <span>Rajkot District</span>
+            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2.5">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Mohan" alt="Avatar" class="w-8 h-8 rounded-full bg-amber-100 border border-amber-300">
+            <div class="text-left text-xs leading-none hidden sm:block">
+              <p class="font-extrabold text-[#003366]">Mohanbhai Patel</p>
+              <p class="text-[10px] text-slate-500 font-medium">Citizen • Rajkot Rural</p>
+            </div>
+          </div>
+          <button class="relative w-8 h-8 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center hover:bg-slate-200 transition">
+            <i class="fa-regular fa-bell text-xs"></i>
+            <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#FF9933] text-slate-900 font-black text-[9px] flex items-center justify-center">3</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 overflow-y-auto">
+        <!-- My Live Token Card -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm relative">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-extrabold text-[#003366] tracking-tight">My Live Token</span>
+              <span class="bg-emerald-50 text-[#138808] border border-emerald-200 text-[10px] font-black px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#138808] animate-ping"></span>
+                ACTIVE
+              </span>
+            </div>
+
+            <div class="mt-2">
+              <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Virtual Token</p>
+              <h2 class="text-4xl sm:text-5xl font-black text-[#FF9933] tracking-tight mt-0.5">#A-42</h2>
+              <div class="mt-2">
+                <p class="text-xs font-black text-[#003366]">Certificate Services</p>
+                <p class="text-[11px] text-slate-500 font-medium">Caste & Income Certificate Verification</p>
+              </div>
+            </div>
+
+            <div class="my-5 bg-[#F5F7FA] border border-slate-200/90 rounded-2xl p-4 flex flex-col items-center justify-center">
+              <div class="w-44 h-44 bg-white rounded-xl p-3 border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div class="flex justify-between">
+                  <div class="w-8 h-8 border-4 border-[#003366] rounded-sm p-0.5"><div class="w-full h-full bg-[#003366]"></div></div>
+                  <div class="w-8 h-8 border-4 border-[#003366] rounded-sm p-0.5"><div class="w-full h-full bg-[#003366]"></div></div>
+                </div>
+                <div class="qr-pattern flex-1 my-1.5"></div>
+                <div class="flex justify-between items-end">
+                  <div class="w-8 h-8 border-4 border-[#003366] rounded-sm p-0.5"><div class="w-full h-full bg-[#003366]"></div></div>
+                  <span class="text-[9px] font-mono font-black text-[#003366]">Qless-A42-GP</span>
+                </div>
+              </div>
+              <p class="text-[11px] font-mono font-bold text-slate-500 mt-2">Qless-A42-GP (Encrypted Token ID)</p>
+            </div>
+
+            <div class="text-center space-y-1">
+              <p class="text-sm font-extrabold text-[#003366]">
+                Arrive by <span class="text-red-600 font-black">11:20 AM</span>
+              </p>
+              <p class="text-xs font-bold text-[#FF9933]">
+                ⏱️ 12:35 remaining (Traffic Buffer included)
+              </p>
+            </div>
+
+            <div class="mt-5 grid grid-cols-2 gap-2">
+              <button onclick="handleRunningLate()" class="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold py-2 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span>I'm Running Late (+3)</span>
+              </button>
+              <button onclick="speakGujaratiGuidance()" class="bg-blue-50 hover:bg-blue-100 text-[#003366] border border-blue-200 font-bold py-2 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-volume-high"></i>
+                <span>સાંભળો (Audio)</span>
+              </button>
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
+              <span class="text-slate-500">Your Queue Position</span>
+              <span class="text-xl font-black text-[#003366] bg-[#F5F7FA] px-3 py-1 rounded-xl">14</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Queue Radar & TV Waiting Room -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-base font-extrabold text-[#003366]">Live Queue Radar</h3>
+                <p class="text-xs font-bold text-slate-500 mt-0.5 flex items-center gap-1">
+                  <i class="fa-solid fa-location-dot text-[#FF9933]"></i>
+                  <span>Current Office: Gondal Jan Seva Kendra, Rajkot</span>
+                </p>
+              </div>
+              <span class="text-[10px] font-bold bg-[#F5F7FA] text-slate-600 px-2 py-1 rounded-lg">Real-Time</span>
+            </div>
+
+            <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+              <div class="bg-[#F5F7FA] border border-slate-200 rounded-2xl p-4">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wide">Live Waiting Time</p>
+                <h4 class="text-4xl font-black text-[#138808] mt-1">18 mins</h4>
+                <p class="text-xs text-slate-500 font-semibold mt-1">Est. Service Time: 12:15 PM</p>
+                <div class="mt-3 flex items-center gap-2 text-[11px] font-bold text-[#005A9C] bg-blue-50 p-2 rounded-lg">
+                  <i class="fa-solid fa-road"></i>
+                  <span>OSRM Route: 4.2 km (9 mins drive)</span>
+                </div>
+              </div>
+
+              <div class="bg-[#F5F7FA] border border-slate-200 rounded-2xl p-4 flex flex-col items-center justify-center text-center">
+                <div class="flex items-center justify-between w-full mb-1">
+                  <span class="text-xs font-bold text-slate-500">Crowd Gauge</span>
+                  <span class="text-[10px] font-black bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full">BUSY</span>
+                </div>
+
+                <div class="relative w-48 h-24 overflow-hidden">
+                  <svg viewBox="0 0 200 100" class="w-full h-full">
+                    <path d="M 20 90 A 80 80 0 0 1 180 90" fill="none" stroke="#e2e8f0" stroke-width="16" stroke-linecap="round"/>
+                    <path d="M 20 90 A 80 80 0 0 1 155 42" fill="none" stroke="url(#gaugeGrad)" stroke-width="16" stroke-linecap="round"/>
+                    <defs>
+                      <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#138808"/>
+                        <stop offset="60%" stop-color="#FF9933"/>
+                        <stop offset="100%" stop-color="#ea580c"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div class="absolute bottom-0 inset-x-0 flex flex-col items-center">
+                    <span class="text-2xl font-black text-[#003366] leading-none">75%</span>
+                    <span class="text-[10px] font-bold text-slate-400 mt-0.5">Capacity</span>
+                  </div>
+                </div>
+
+                <div class="mt-2 text-[11px] font-bold text-slate-600">
+                  <span>16 Counters Active</span> • <span class="text-[#FF9933] font-black">Waiters: 94</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================= -->
+  <!-- MODAL: SCHEME DETAIL DRAWER                   -->
+  <!-- ============================================= -->
+  <div id="drawerOverlay" class="hidden fixed inset-0 bg-[#003366]/60 backdrop-blur-xs z-50 flex justify-end">
+    <div class="bg-white w-full max-w-lg h-full shadow-2xl border-l border-slate-200 flex flex-col justify-between overflow-y-auto animate-fade-in">
+      <div>
+        <div class="bg-[#003366] text-white p-5 sticky top-0 z-20 flex items-start justify-between">
+          <div class="space-y-1">
+            <span id="drawerCategoryPill" class="text-[11px] font-extrabold uppercase tracking-widest text-[#FF9933] bg-[#002244] px-2.5 py-0.5 rounded-full border border-blue-800">
+              સરકારી યોજના
+            </span>
+            <h2 id="drawerTitleGu" class="text-xl font-black text-white mt-1 leading-tight">યોજના નામ</h2>
+            <p id="drawerTitleEn" class="text-xs text-blue-200">Scheme English Title</p>
+          </div>
+          <button onclick="closeDrawer()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+
+        <div class="p-5 space-y-6">
+          <div class="grid grid-cols-3 gap-3">
+            <div class="bg-[#F5F7FA] border border-slate-200 rounded-2xl p-3 text-center">
+              <i class="fa-regular fa-clock text-[#005A9C] mb-1"></i>
+              <p class="text-[10px] font-bold text-slate-500 uppercase">નિકાલ સમય</p>
+              <p id="drawerSla" class="text-sm font-black text-[#003366] mt-0.5">૩ દિવસ</p>
+              <p class="text-[9px] text-[#138808] font-bold">GRTSA ગેરંટી</p>
+            </div>
+            <div class="bg-[#F5F7FA] border border-slate-200 rounded-2xl p-3 text-center">
+              <i class="fa-solid fa-indian-rupee-sign text-[#138808] mb-1"></i>
+              <p class="text-[10px] font-bold text-slate-500 uppercase">સરકારી ફી</p>
+              <p id="drawerFee" class="text-sm font-black text-[#003366] mt-0.5">₹૦ (મફત)</p>
+              <p class="text-[9px] text-slate-500">અધિકૃત ચાર્જ</p>
+            </div>
+            <div class="bg-[#F5F7FA] border border-slate-200 rounded-2xl p-3 text-center">
+              <i class="fa-solid fa-shield-halved text-[#FF9933] mb-1"></i>
+              <p class="text-[10px] font-bold text-slate-500 uppercase">દાખલા મુદત</p>
+              <p id="drawerValidity" class="text-sm font-black text-[#003366] mt-0.5">૩ વર્ષ</p>
+              <p class="text-[9px] text-slate-500">કાનૂની માન્યતા</p>
+            </div>
+          </div>
+
+          <!-- Benefit Box -->
+          <div class="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-4 space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-amber-900">✨ મુખ્ય યોજના લાભ</span>
+              <button onclick="speakDrawerBenefit()" class="text-[#003366] hover:text-[#005A9C] text-xs font-bold flex items-center gap-1">
+                <i class="fa-solid fa-volume-high"></i> સાંભળો
+              </button>
+            </div>
+            <p id="drawerBenefitGu" class="text-xs font-bold text-amber-950 leading-relaxed"></p>
+          </div>
+
+          <!-- Document Readiness Progress Gauge -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 space-y-2 shadow-xs">
+            <div class="flex items-center justify-between text-xs font-bold">
+              <span class="text-[#003366]">દસ્તાવેજ તૈયારી સ્કોર (Readiness)</span>
+              <span id="readinessScoreText" class="text-[#FF9933]">૦% તૈયાર</span>
+            </div>
+            <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+              <div id="readinessProgressBar" class="h-full bg-gradient-to-r from-[#005A9C] via-[#FF9933] to-[#138808] transition-all duration-300 w-0"></div>
+            </div>
+            <p class="text-[10px] text-slate-500">કાગળો પર ક્લિક કરીને ચેક કરો અથવા AI કેમેરાથી તપાસો.</p>
+          </div>
+
+          <!-- Document Checklist -->
+          <div class="space-y-2.5">
+            <h4 class="text-xs font-black text-[#003366] uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-file-circle-check text-[#005A9C]"></i>
+              <span>જરૂરી દસ્તાવેજોનું ચેકલિસ્ટ</span>
+            </h4>
+            <div id="drawerDocsList" class="space-y-2"></div>
+          </div>
+
+          <!-- WhatsApp Share Button -->
+          <button onclick="shareDrawerOnWhatsApp()" class="w-full bg-emerald-50 hover:bg-emerald-100 text-[#138808] border border-emerald-300 rounded-xl py-2.5 text-xs font-bold flex items-center justify-center gap-2 transition active:scale-95">
+            <i class="fa-brands fa-whatsapp text-base"></i>
+            <span>વોટ્સએપ પર યાદી મોકલો (Share on WhatsApp)</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="p-4 bg-white border-t border-slate-200 sticky bottom-0 z-20">
+        <button onclick="openCameraScannerFromDrawer()" class="w-full bg-[#005A9C] hover:bg-[#003366] text-white font-extrabold py-3.5 rounded-2xl text-xs sm:text-sm shadow-md transition active:scale-95 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-camera text-[#FF9933]"></i>
+          <span>દસ્તાવેજ AI કેમેરાથી ચકાસો (Verify with Camera)</span>
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- MODAL: CAMSCANNER CAMERA GUIDE & OCR          -->
+  <!-- ============================================= -->
+  <!-- MODAL: CAMSCANNER CAMERA GUIDE & GOOGLE DRIVE -->
+  <!-- ============================================= -->
+  <div id="cameraModal" class="hidden fixed inset-0 bg-[#003366]/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-5">
+    <div class="bg-white rounded-3xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      
+      <!-- Modal Header -->
+      <div class="bg-[#003366] text-white p-4 sm:p-5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[#005A9C] text-[#FF9933] flex items-center justify-center text-lg font-black border border-[#FF9933]">
+            <i class="fa-solid fa-file-shield"></i>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-sm sm:text-base leading-tight">દસ્તાવેજ ચકાસણી & સ્કેનિંગ સ્ટુડિયો</h3>
+            <p id="cameraSchemeName" class="text-[11px] text-blue-200">આવક પ્રમાણપત્ર ચકાસણી</p>
+          </div>
+        </div>
+        <button onclick="closeCameraModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Mode Switcher Tabs: Camera vs Google Drive / Upload -->
+      <div class="flex border-b border-slate-200 bg-slate-50">
+        <button id="tabScannerCamera" onclick="switchScannerMode('camera')" class="flex-1 py-3 text-xs font-black text-[#003366] border-b-2 border-[#005A9C] bg-white flex items-center justify-center gap-2 transition cursor-pointer">
+          <i class="fa-solid fa-camera text-[#005A9C]"></i>
+          <span>લાઈવ કેમેરા સ્કેન (Live Camera)</span>
+        </button>
+        <button id="tabScannerDrive" onclick="switchScannerMode('drive')" class="flex-1 py-3 text-xs font-extrabold text-slate-500 hover:text-[#005A9C] flex items-center justify-center gap-2 transition cursor-pointer">
+          <i class="fa-brands fa-google-drive text-[#FF9933]"></i>
+          <span>Google Drive & ફાઇલ/ફોલ્ડર અપલોડ</span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-4 flex-1 overflow-y-auto space-y-4">
+        
+        <!-- ================= CAMERA VIEW ================= -->
+        <div id="cameraViewContainer" class="space-y-4">
+          <!-- Presets for Camera -->
+          <div class="p-3 bg-[#F5F7FA] border border-slate-200 rounded-2xl flex flex-wrap items-center justify-between gap-2">
+            <span class="text-xs font-bold text-slate-500">ટેસ્ટ સેમ્પલ:</span>
+            <div class="flex items-center gap-2">
+              <button onclick="simulateOcrScan(2021)" class="bg-red-50 hover:bg-red-100 text-red-700 border border-red-300 px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition cursor-pointer">
+                <i class="fa-solid fa-triangle-exclamation text-red-600"></i>
+                <span>ટેસ્ટ: ૨૦૨૧ (રદબાતલ)</span>
+              </button>
+              <button onclick="simulateOcrScan(2025)" class="bg-emerald-50 hover:bg-emerald-100 text-[#138808] border border-emerald-300 px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition cursor-pointer">
+                <i class="fa-solid fa-circle-check text-[#138808]"></i>
+                <span>ટેસ્ટ: ૨૦૨૫ (માન્ય)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Camera Canvas Box -->
+          <div class="relative w-full aspect-[4/3] bg-slate-900 rounded-2xl overflow-hidden flex items-center justify-center border-2 border-slate-700">
+            <div class="text-center p-6 text-slate-400 space-y-2">
+              <i class="fa-solid fa-camera text-4xl text-slate-500 animate-pulse"></i>
+              <p class="text-xs font-semibold text-slate-300">કેમેરા વ્યુફાઈન્ડર સક્રિય છે</p>
+              <p class="text-[11px] text-slate-400">દસ્તાવેજને લીલા બોક્સની અંદર સીધો રાખો</p>
+            </div>
+
+            <!-- Green CamScanner Framing Box Overlay -->
+            <div class="absolute inset-4 sm:inset-6 border-2 border-dashed border-[#138808] rounded-xl pointer-events-none shadow-[0_0_20px_rgba(19,136,8,0.3)] flex flex-col justify-between p-2">
+              <div class="flex justify-between items-center text-[10px] font-bold text-emerald-400 bg-slate-900/60 px-2 py-0.5 rounded backdrop-blur-xs w-max">
+                <span>આવક પ્રમાણપત્ર / ૭-૧૨ ફ્રેમ</span>
+              </div>
+              <div class="text-center">
+                <span class="text-[10px] font-bold text-white bg-slate-900/60 px-2.5 py-1 rounded-full backdrop-blur-xs">
+                  કાગળ ચારેય ખૂણાથી સીધો રાખો
+                </span>
+              </div>
+            </div>
+
+            <!-- Laser Scan Beam -->
+            <div id="scanLaserBeam" class="hidden absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_#138808] animate-scan"></div>
+          </div>
+        </div>
+
+        <!-- ================= GOOGLE DRIVE & UPLOAD VIEW ================= -->
+        <div id="driveViewContainer" class="hidden space-y-4">
+          
+          <!-- Direct File & Folder Upload Box -->
+          <div class="border-2 border-dashed border-slate-300 rounded-2xl p-5 text-center bg-[#F5F7FA] hover:bg-slate-100 transition space-y-3">
+            <div class="flex items-center justify-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-blue-100 text-[#005A9C] flex items-center justify-center text-lg">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-amber-100 text-[#FF9933] flex items-center justify-center text-lg">
+                <i class="fa-brands fa-google-drive"></i>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-emerald-100 text-[#138808] flex items-center justify-center text-lg">
+                <i class="fa-solid fa-folder-open"></i>
+              </div>
+            </div>
+
+            <div>
+              <p class="text-xs font-black text-[#003366]">સીધી ફાઇલ અથવા આખું ફોલ્ડર પસંદ કરો</p>
+              <p class="text-[11px] text-slate-500">PDF, JPG, PNG અથવા આખું દસ્તાવેજ ફોલ્ડર અપલોડ કરી શકાય છે</p>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-2 pt-1">
+              <button onclick="document.getElementById('directFileInput').click()" class="bg-[#005A9C] hover:bg-[#003366] text-white text-xs font-bold px-3.5 py-2.5 rounded-xl shadow-xs flex items-center gap-2 cursor-pointer transition active:scale-95">
+                <i class="fa-solid fa-file-arrow-up"></i>
+                <span>📂 ફાઇલ અપલોડ કરો (Select File)</span>
+              </button>
+              <button onclick="document.getElementById('directFolderInput').click()" class="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold px-3.5 py-2.5 rounded-xl shadow-xs flex items-center gap-2 cursor-pointer transition active:scale-95">
+                <i class="fa-solid fa-folder-plus text-[#FF9933]"></i>
+                <span>📁 આખું ફોલ્ડર અપલોડ કરો (Upload Folder)</span>
+              </button>
+            </div>
+
+            <input type="file" id="directFileInput" accept="image/*,.pdf" class="hidden" onchange="handleDirectFileSelect(event)">
+            <input type="file" id="directFolderInput" webkitdirectory directory class="hidden" onchange="handleDirectFolderSelect(event)">
+          </div>
+
+          <!-- Google Drive & DigiLocker Interactive Cloud Explorer -->
+          <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
+            <div class="p-3 bg-blue-50 border-b border-blue-100 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i class="fa-brands fa-google-drive text-lg text-[#005A9C]"></i>
+                <div class="text-left">
+                  <p class="text-xs font-black text-[#003366]">Google Drive / DigiLocker ક્લાઉડ ફાઇલ્સ</p>
+                  <p class="text-[10px] text-slate-500">My Drive > ગુજરાત સરકારી પ્રમાણપત્રો</p>
+                </div>
+              </div>
+              <span class="text-[9.5px] font-extrabold bg-[#138808] text-white px-2 py-0.5 rounded-full">
+                ● Live Synced
+              </span>
+            </div>
+
+            <!-- List of Clickable Cloud Documents -->
+            <div class="p-2 space-y-1.5 divide-y divide-slate-100 text-left">
+              
+              <!-- 1. Valid 2025 Income Certificate -->
+              <div onclick="selectDriveFile('income_2025', 'આવકનો_દાખલો_૨૦૨૫_ડીજીટલ.pdf', 2025, '284 KB')" class="p-2.5 rounded-xl hover:bg-blue-50/80 transition cursor-pointer flex items-center justify-between group">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center text-sm font-bold shrink-0">
+                    <i class="fa-solid fa-file-pdf"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs font-bold text-slate-800 group-hover:text-[#005A9C]">આવકનો_દાખલો_૨૦૨૫_ડીજીટલ.pdf</p>
+                    <p class="text-[10px] text-slate-400">ઇસ્યુ: ૧૫-૦૪-૨૦૨૫ • ૨૮૪ KB • <span class="text-emerald-700 font-bold">૩-વર્ષ માન્ય</span></p>
+                  </div>
+                </div>
+                <span class="text-[11px] font-extrabold text-[#005A9C] bg-blue-50 border border-blue-200 px-2 py-1 rounded-lg group-hover:bg-[#005A9C] group-hover:text-white transition">
+                  ઇમ્પોર્ટ કરો →
+                </span>
+              </div>
+
+              <!-- 2. Expired 2021 Income Certificate -->
+              <div onclick="selectDriveFile('income_2021', 'આવકનો_દાખલો_૨૦૨૧_જૂનો.pdf', 2021, '192 KB')" class="p-2.5 rounded-xl hover:bg-red-50/80 transition cursor-pointer flex items-center justify-between group">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center text-sm font-bold shrink-0">
+                    <i class="fa-solid fa-file-pdf"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs font-bold text-slate-800 group-hover:text-red-700">આવકનો_દાખલો_૨૦૨૧_જૂનો.pdf</p>
+                    <p class="text-[10px] text-slate-400">ઇસ્યુ: ૧૦-૦૧-૨૦૨૧ • ૧૯૨ KB • <span class="text-red-600 font-bold">૩ વર્ષથી જૂનો (રદબાતલ)</span></p>
+                  </div>
+                </div>
+                <span class="text-[11px] font-extrabold text-red-700 bg-red-50 border border-red-200 px-2 py-1 rounded-lg group-hover:bg-red-600 group-hover:text-white transition">
+                  ટેસ્ટ એક્સપાયરી →
+                </span>
+              </div>
+
+              <!-- 3. 7/12 Land Record -->
+              <div onclick="selectDriveFile('land_712', '૭_૧૨_અને_૮-અ_જમીન_નકલ.pdf', 2025, '512 KB')" class="p-2.5 rounded-xl hover:bg-blue-50/80 transition cursor-pointer flex items-center justify-between group">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg bg-emerald-100 text-[#138808] flex items-center justify-center text-sm font-bold shrink-0">
+                    <i class="fa-solid fa-file-lines"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs font-bold text-slate-800 group-hover:text-[#005A9C]">૭_૧૨_અને_૮-અ_જમીન_નકલ.pdf</p>
+                    <p class="text-[10px] text-slate-400">ઇ-ધરા ગોંડલ • ૫૧૨ KB • <span class="text-emerald-700 font-bold">વેરિફાઇડ RoR</span></p>
+                  </div>
+                </div>
+                <span class="text-[11px] font-extrabold text-[#005A9C] bg-blue-50 border border-blue-200 px-2 py-1 rounded-lg group-hover:bg-[#005A9C] group-hover:text-white transition">
+                  ઇમ્પોર્ટ કરો →
+                </span>
+              </div>
+
+              <!-- 4. Aadhaar Card -->
+              <div onclick="selectDriveFile('aadhaar', 'આધાર_કાર્ડ_UIDAI_ઇ-આધાર.pdf', 2025, '340 KB')" class="p-2.5 rounded-xl hover:bg-blue-50/80 transition cursor-pointer flex items-center justify-between group">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg bg-blue-100 text-[#005A9C] flex items-center justify-center text-sm font-bold shrink-0">
+                    <i class="fa-solid fa-id-card"></i>
+                  </div>
+                  <div>
+                    <p class="text-xs font-bold text-slate-800 group-hover:text-[#005A9C]">આધાર_કાર્ડ_UIDAI_ઇ-આધાર.pdf</p>
+                    <p class="text-[10px] text-slate-400">UIDAI Safe • ૩૪૦ KB • <span class="text-emerald-700 font-bold">૧૨-ડિજિટ ડિજિટલ</span></p>
+                  </div>
+                </div>
+                <span class="text-[11px] font-extrabold text-[#005A9C] bg-blue-50 border border-blue-200 px-2 py-1 rounded-lg group-hover:bg-[#005A9C] group-hover:text-white transition">
+                  ઇમ્પોર્ટ કરો →
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Active Selected File Banner -->
+          <div id="driveSelectedFileCard" class="hidden p-3 bg-blue-50 border border-blue-200 rounded-2xl flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <i class="fa-solid fa-file-circle-check text-xl text-[#005A9C]"></i>
+              <div class="text-left">
+                <p id="driveSelectedFileName" class="text-xs font-black text-[#003366]">દસ્તાવેજ પસંદ કરેલ છે</p>
+                <p id="driveSelectedFileMeta" class="text-[10px] text-slate-500">Google Drive Synced</p>
+              </div>
+            </div>
+            <span class="text-[10px] font-bold bg-emerald-100 text-[#138808] border border-emerald-300 px-2 py-0.5 rounded-full">
+              તપાસ પૂર્ણ
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Result Card (Shared by Camera & Drive) -->
+        <div id="ocrResultBox" class="hidden p-4 rounded-2xl border transition-all">
+          <div class="flex items-start gap-3">
+            <span id="ocrResultIcon" class="text-lg"></span>
+            <div class="flex-1 space-y-1">
+              <div class="flex items-center justify-between">
+                <span id="ocrResultPill" class="text-xs font-extrabold px-2 py-0.5 rounded-full"></span>
+                <button onclick="speakOcrMessage()" class="text-slate-600 hover:text-slate-900 text-xs flex items-center gap-1 font-bold cursor-pointer">
+                  <i class="fa-solid fa-volume-high"></i> સાંભળો
+                </button>
+              </div>
+              <p id="ocrResultMsgGu" class="text-xs font-bold leading-relaxed text-slate-900"></p>
+              <p id="ocrResultMsgEn" class="text-[11px] text-slate-600"></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Scanner Actions -->
+      <div class="p-4 bg-white border-t border-slate-200 flex items-center justify-between gap-3">
+        <button id="btnActionSecondary" onclick="simulateOcrScan(2025)" class="px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 transition flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-rotate"></i>
+          <span id="btnActionSecondaryText">રી-સ્કેન કરો</span>
+        </button>
+
+        <button id="btnProceedToToken" onclick="unlockTokenBookingFromScanner()" disabled class="px-5 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition bg-slate-200 text-slate-400 cursor-not-allowed">
+          <span>ટોકન બુક કરવા આગળ વધો</span>
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+  <!-- PWA INSTALL BANNER -->
+  <div id="pwaBanner" class="fixed bottom-0 inset-x-0 bg-white border-t-2 border-[#FF9933] shadow-2xl p-4 sm:p-5 z-40 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-11 h-11 rounded-2xl bg-[#003366] text-white flex items-center justify-center font-black text-lg shadow-md shrink-0 border border-[#FF9933]">
+        Q
+      </div>
+      <div>
+        <h4 class="text-xs sm:text-sm font-extrabold text-[#003366]">એપને ૧ સેકન્ડમાં હોમ સ્ક્રીન પર ઉમેરો (Install App)</h4>
+        <p class="text-[11px] text-slate-500">ઇન્ટરનેટ વગર પણ કચેરી ટોકન અને QR કોડ જોવા માટે 1-Click PWA ઇન્સ્ટોલ કરો.</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 w-full sm:w-auto">
+      <button onclick="document.getElementById('pwaBanner').classList.add('hidden')" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100">પછીથી</button>
+      <button onclick="alert('PWA Installed!'); document.getElementById('pwaBanner').classList.add('hidden')" class="flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs font-extrabold bg-[#FF9933] text-slate-900 shadow-md">ઇન્સ્ટોલ કરો</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-xs text-slate-500 text-center">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p class="font-bold text-[#003366]">QueueLess / NagrikSeva AI © 2026 • Government of Gujarat DPI Initiative</p>
+      <p class="text-[11px] text-slate-400">
+        GRTSA 2013 Compliant • 39+ Schemes Catalog across 33 Districts and 250+ Talukas
+      </p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT & 39 SCHEMES DATASET -->
+  <script>
+    // Master 39 Schemes Dataset
+    const SCHEMES_DATA = [
+      // Agriculture
+      { id: 'ikhedut-subsidy-schemes', cat: 'agri', catGu: 'ખેતીવાડી', titleGu: 'i-Khedut સબસિડી યોજનાઓ (ટ્રેક્ટર, સાધનો અને સિંચાઈ કિટ્સ)', titleEn: 'i-Khedut Subsidy Schemes (Tractors, Tools & Kits)', benefitGu: 'ખેતી યંત્રો, ઓજારો, પાઈપલાઈન અને સિંચાઈ સાધનો માટે સંકલિત સબસિડી પોર્ટલ', sla: 7, fee: 0, docs: ['૭/૧૨ અને ૮-અ જમીન નકલ', 'આધાર કાર્ડ', 'બેંક પાસબુક'] },
+      { id: 'ikhedut-tractor', cat: 'agri', catGu: 'ખેતીવાડી', titleGu: 'i-Khedut ટ્રેક્ટર સહાય યોજના', titleEn: 'i-Khedut Tractor Assistance', benefitGu: 'નવા ટ્રેક્ટરની ખરીદી પર ₹૪૫,૦૦૦ થી ₹૬૦,૦૦૦ સુધી સબસિડી', sla: 7, fee: 0, docs: ['૭/૧૨ અને ૮-અ જમીન નકલ', 'આધાર કાર્ડ', 'બેંક પાસબુક', 'ક્વોટેશન'] },
+      { id: 'ikhedut-tools', cat: 'agri', catGu: 'ખેતીવાડી', titleGu: 'i-Khedut ખેતી સાધનો/ઓજારો સહાય', titleEn: 'i-Khedut Tools & Implements', benefitGu: 'રોટાવેટર, થ્રેશર પર ૫૦% સુધી સબસિડી સહાય', sla: 5, fee: 0, docs: ['૭/૧૨ જમીન નકલ', 'આધાર કાર્ડ', 'ડીલર ક્વોટેશન'] },
+      { id: 'ikhedut-drip', cat: 'agri', catGu: 'ખેતીવાડી', titleGu: 'i-Khedut ટપક સિંચાઈ (Drip Irrigation) સહાય', titleEn: 'i-Khedut Drip Irrigation Assistance', benefitGu: 'ટપક પદ્ધતિ માટે ૭૦% થી ૮૫% આર્થિક અનુદાન (GGRC)', sla: 7, fee: 0, docs: ['૭/૧૨ અને ૮-અ નકલ', 'વીજ બિલ', 'આધાર કાર્ડ'] },
+      { id: 'ikhedut-tarpaulin', cat: 'agri', catGu: 'ખેતીવાડી', titleGu: 'i-Khedut તાડપત્રી સહાય યોજના', titleEn: 'i-Khedut Tarpaulin Assistance', benefitGu: 'પાક સંરક્ષણ તાડપત્રી ખરીદી પર ૫૦% થી ૭૫% સબસિડી', sla: 3, fee: 0, docs: ['૭/૧૨ નકલ', 'આધાર કાર્ડ', 'બેંક પાસબુક'] },
+      { id: 'ikhedut-seeds', cat: 'agri', catGu: 'ખેતીવાડી', titleGu: 'i-Khedut પ્રમાણિત બિયારણ સહાય', titleEn: 'i-Khedut Seed Assistance', benefitGu: 'મગફળી, કપાસ અને ઘઉંના બિયારણ પર સહાય', sla: 3, fee: 0, docs: ['૭/૧૨ નકલ', 'આધાર કાર્ડ', 'જીએસટી બિયારણ બિલ'] },
+      { id: 'crop-godown', cat: 'agri', catGu: 'ખેતીવાડી', titleGu: 'પાક સંગ્રહ ગોડાઉન સ્ટ્રક્ચર સહાય', titleEn: 'Crop Storage / Godown Assistance', benefitGu: 'ખેતરમાં ગોડાઉન બનાવવા માટે ₹૫૦,૦૦૦ સુધી સહાય', sla: 10, fee: 0, docs: ['૭/૧૨ અને ૮-અ નકલ', 'આધાર કાર્ડ', 'નકશો અને જીઓ-ટેગ'] },
+      { id: 'pm-kisan', cat: 'agri', catGu: 'ખેતીવાડી', titleGu: 'PM-KISAN સન્માન નિધિ યોજના', titleEn: 'PM-KISAN Samman Nidhi', benefitGu: 'વાર્ષિક ₹૬,૦૦૦ સીધા બેંક ખાતામાં (₹૨,૦૦૦ ના ૩ હપ્તા)', sla: 3, fee: 0, docs: ['૭/૧૨ RoR નકલ', 'આધાર કાર્ડ', 'DBT બેંક એકાઉન્ટ'] },
+      { id: 'mksy-sahay', cat: 'agri', catGu: 'ખેતીવાડી', titleGu: 'મુખ્યમંત્રી કિસાન સહાય યોજના (MKSY)', titleEn: 'Mukhyamantri Kisan Sahay Yojana', benefitGu: 'અતિવૃષ્ટિ કે દુષ્કાળમાં હેક્ટર દીઠ ₹૨૫,૦૦૦ સુધી વળતર', sla: 7, fee: 0, docs: ['૭/૧૨ નકલ', 'તલાટી વાવેતર દાખલો', 'આધાર કાર્ડ'] },
+      { id: 'deshi-gay', cat: 'agri', catGu: 'ખેતીવાડી', titleGu: 'દેશી ગાય નિભાવ ખર્ચ સહાય યોજના', titleEn: 'Deshi Gay Nibhav Kharch Sahay', benefitGu: 'પ્રાકૃતિક ખેતી માટે દર મહિને ₹૯૦૦ (વાર્ષિક ₹૧૦,૮૦૦) સહાય', sla: 5, fee: 0, docs: ['૭/૧૨ નકલ', 'ગાયનો કાનનો ટેગ નંબર (INAF)', 'પ્રાકૃતિક ખેતી તાલીમ પ્રમાણપત્ર', 'આધાર કાર્ડ'] },
+      { id: 'smartphone-sahay', cat: 'agri', catGu: 'ખેતીવાડી', titleGu: 'ખેડૂત સ્માર્ટફોન સહાય યોજના', titleEn: 'Smartphone Sahay for Farmers', benefitGu: 'સ્માર્ટફોન ખરીદી પર ૪૦% અથવા ₹૬,૦૦૦ સુધી સબસિડી', sla: 5, fee: 0, docs: ['૭/૧૨ નકલ', 'આધાર કાર્ડ', 'GST ખરીદી બિલ સાથે IMEI'] },
+
+      // Healthcare
+      { id: 'pmjay-card', cat: 'health', catGu: 'આરોગ્ય', titleGu: 'PM-JAY આયુષ્માન ભારત કાર્ડ (MAA Card)', titleEn: 'PM-JAY Ayushman Card', benefitGu: 'પરિવાર દીઠ વાર્ષિક ₹૧૦ લાખ સુધીની કેશલેસ સારવાર', sla: 1, fee: 0, docs: ['આધાર કાર્ડ', 'રેશન કાર્ડ (NFSA)', 'આવકનો દાખલો (૩-વર્ષ)'] },
+      { id: 'maa-amrutam', cat: 'health', catGu: 'આરોગ્ય', titleGu: 'મુખ્યમંત્રી અમૃતમ (મા વાત્સલ્ય યોજના)', titleEn: 'Mukhyamantri Amrutam (MAA Vatsalya)', benefitGu: 'કેન્સર, કિડની, હૃદયરોગ માટે ૧૦૦% મફત સારવાર', sla: 2, fee: 0, docs: ['આધાર કાર્ડ', 'આવકનો દાખલો (< ₹૪ લાખ)', 'રેશન કાર્ડ'] },
+      { id: 'ganga-swarupa', cat: 'health', catGu: 'આરોગ્ય', titleGu: 'ગંગા સ્વરૂપા આર્થિક સહાય (વિધવા પેન્શન)', titleEn: 'Ganga Swarupa Financial Assistance', benefitGu: 'દર મહિને ₹૧,૨૫૦ આજીવન સીધી બેંક સહાય', sla: 5, fee: 0, docs: ['પતિનો મરણનો દાખલો', 'આધાર કાર્ડ', 'આવકનો દાખલો (૩-વર્ષ)', 'પુનઃલગ્ન ન કર્યાનું સોગંદનામું'] },
+      { id: 'pmsby-insurance', cat: 'health', catGu: 'આરોગ્ય', titleGu: 'પ્રધાનમંત્રી સુરક્ષા વીમા યોજના (PMSBY)', titleEn: 'PM Suraksha Bima Yojana', benefitGu: 'વાર્ષિક ₹૨૦ માં ₹૨ લાખનું અકસ્માત વીમા કવચ', sla: 1, fee: 20, docs: ['આધાર કાર્ડ', 'બેંક બચત ખાતું પાસબુક'] },
+      { id: 'matrushakti-mmy', cat: 'health', catGu: 'આરોગ્ય', titleGu: 'મુખ્યમંત્રી માતૃશક્તિ યોજના (MMY)', titleEn: 'Mukhyamantri Matrushakti Yojana', benefitGu: '૧,૦૦૦ દિવસ સુધી દર મહિને મફત પૌષ્ટિક આહાર કીટ', sla: 2, fee: 0, docs: ['મમતા કાર્ડ (MCP Card)', 'માતા-પિતા આધાર કાર્ડ', 'રેશન કાર્ડ'] },
+      { id: 'chiranjeevi', cat: 'health', catGu: 'આરોગ્ય', titleGu: 'ચિરંજીવી યોજના (પ્રસૂતિ સહાય)', titleEn: 'Chiranjeevi Yojana', benefitGu: 'ખાનગી હોસ્પિટલમાં પણ ૧૦૦% મફત સુવાવડ અને સિઝેરિયન', sla: 1, fee: 0, docs: ['આધાર કાર્ડ', 'BPL કાર્ડ અથવા આવક દાખલો', 'મમતા કાર્ડ'] },
+      { id: 'poshan-sudha', cat: 'health', catGu: 'આરોગ્ય', titleGu: 'પોષણ સુધા યોજના', titleEn: 'Poshan Sudha Yojana', benefitGu: 'સગર્ભા બહેનોને એક ટંકનું સંપૂર્ણ ગરમ પૌષ્ટિક ભોજન', sla: 2, fee: 0, docs: ['આધાર કાર્ડ', 'મમતા કાર્ડ'] },
+      { id: 'janani-suraksha', cat: 'health', catGu: 'આરોગ્ય', titleGu: 'જનની સુરક્ષા યોજના (JSY)', titleEn: 'Janani Suraksha Yojana', benefitGu: 'સરકારી હોસ્પિટલ સુવાવડ પર ₹૧,૪૦૦ રોકડ પ્રોત્સાહન', sla: 2, fee: 0, docs: ['આધાર કાર્ડ', 'ડિસ્ચાર્જ સ્લિપ', 'બેંક પાસબુક'] },
+      { id: 'niradhar-vrudh', cat: 'health', catGu: 'આરોગ્ય', titleGu: 'નિરાધાર વૃદ્ધ સહાય યોજના', titleEn: 'Niradhar Vrudh Sahay (Old Age Pension)', benefitGu: '૬૦+ ઉંમરના વડીલોને દર મહિને ₹૧,૦૦૦ થી ₹૧,૨૫૦ પેન્શન', sla: 5, fee: 0, docs: ['આધાર કાર્ડ (૬૦+ વર્ષ)', 'આવકનો દાખલો (૩-વર્ષ)', 'બેંક પાસબુક'] },
+
+      // Education
+      { id: 'namo-lakshmi', cat: 'edu', catGu: 'શિક્ષણ', titleGu: 'નમો લક્ષ્મી યોજના (ધો. ૯ થી ૧૨)', titleEn: 'Namo Lakshmi Yojana', benefitGu: 'ધોરણ ૯ થી ૧૨ ની દીકરીઓને કુલ ₹૫૦,૦૦૦ શિષ્યવૃત્તિ', sla: 3, fee: 0, docs: ['વિદ્યાર્થિનીનું આધાર કાર્ડ', 'શાળા બોનાફાઇડ / U-DISE ID', 'બેંક પાસબુક'] },
+      { id: 'mysy-scholarship', cat: 'edu', catGu: 'શિક્ષણ', titleGu: 'MYSY (મુખ્યમંત્રી યુવા સ્વાવલંબન યોજના)', titleEn: 'MYSY Scholarship Scheme', benefitGu: 'મેડિકલમાં ₹૨ લાખ અને એન્જિનિયરિંગમાં ₹૫૦,૦૦૦ ફી સહાય', sla: 7, fee: 0, docs: ['ધો. ૧૦/૧૨ માર્કશીટ (૮૦+ પર્સન્ટાઈલ)', 'આવકનો દાખલો (૩-વર્ષ, < ₹૬ લાખ)', 'કોલેજ એડમિશન પત્ર', 'બેંક પાસબુક'] },
+      { id: 'namo-saraswati', cat: 'edu', catGu: 'શિક્ષણ', titleGu: 'નમો સરસ્વતી વિજ્ઞાન સાધના યોજના', titleEn: 'Namo Saraswati Vigyan Sadhana', benefitGu: 'ધોરણ ૧૧-૧૨ સાયન્સના વિદ્યાર્થીઓને ₹૨૫,૦૦૦ સહાય', sla: 3, fee: 0, docs: ['આધાર કાર્ડ', 'ધોરણ ૧૦ માર્કશીટ', 'સાયન્સ પ્રવેશ રસીદ'] },
+      { id: 'digital-guj-pre', cat: 'edu', catGu: 'શિક્ષણ', titleGu: 'ડિજિટલ ગુજરાત શિષ્યવૃત્તિ (પ્રી-મેટ્રિક)', titleEn: 'Digital Gujarat Scholarship – Pre-Matric', benefitGu: 'ધોરણ ૧ થી ૧૦ ના અનામત વર્ગના વિદ્યાર્થીઓને સહાય', sla: 5, fee: 0, docs: ['જાતિનો દાખલો', 'આવકનો દાખલો (૩-વર્ષ)', 'બેંક પાસબુક'] },
+      { id: 'digital-guj-post', cat: 'edu', catGu: 'શિક્ષણ', titleGu: 'ડિજિટલ ગુજરાત શિષ્યવૃત્તિ (પોસ્ટ-મેટ્રિક)', titleEn: 'Digital Gujarat Scholarship – Post-Matric', benefitGu: 'કોલેજ વિદ્યાર્થીઓને સંપૂર્ણ ફી અને નિર્વાહ ભથ્થું', sla: 7, fee: 0, docs: ['જાતિનો દાખલો', 'આવકનો દાખલો (૩-વર્ષ)', 'કોલેજ બોનાફાઇડ'] },
+      { id: 'cmss-scholarship', cat: 'edu', catGu: 'શિક્ષણ', titleGu: 'મુખ્યમંત્રી સ્કોલરશીપ સ્કીમ (CMSS)', titleEn: 'Chief Minister Scholarship Scheme', benefitGu: 'હોનહાર તેજસ્વી વિદ્યાર્થીઓ માટે ઉચ્ચ અભ્યાસ મેરિટ સહાય', sla: 7, fee: 0, docs: ['બોર્ડ મેરિટ માર્કશીટ', 'આવકનો દાખલો (< ₹૪.૫ લાખ)', 'આધાર કાર્ડ'] },
+      { id: 'saraswati-cycle', cat: 'edu', catGu: 'શિક્ષણ', titleGu: 'સરસ્વતી સાધના સાયકલ સહાય યોજના', titleEn: 'Saraswati Bicycle Scheme', benefitGu: 'ધોરણ ૯ માં પ્રવેશ મેળવતી દીકરીઓને તદ્દન મફત સાયકલ', sla: 3, fee: 0, docs: ['ધોરણ ૮ પાસ માર્કશીટ', 'ધોરણ ૯ શાળા પ્રવેશ સ્લિપ', 'આધાર કાર્ડ'] },
+      { id: 'foreign-study-loan', cat: 'edu', catGu: 'શિક્ષણ', titleGu: 'વિદેશ અભ્યાસ લોન સહાય યોજના', titleEn: 'Foreign Study Education Loan Assistance', benefitGu: 'વિદેશ અભ્યાસ માટે ૪% ના રાહત દરે ₹૧૫ લાખ સુધી લોન', sla: 10, fee: 0, docs: ['યુનિવર્સિટી Offer Letter / I-20', 'આવકનો દાખલો (૩-વર્ષ)', 'પાસપોર્ટ & વિઝા'] },
+
+      // Welfare & Housing
+      { id: 'pmay-gramin', cat: 'welfare', catGu: 'આવાસ', titleGu: 'પ્રધાનમંત્રી આવાસ યોજના – ગ્રામીણ (PMAY-G)', titleEn: 'PMAY – Gramin', benefitGu: 'પાકું મકાન બનાવવા માટે ₹૧,૨૦,૦૦૦ + મનરેગા મજૂરી સહાય', sla: 15, fee: 0, docs: ['કાચું મકાન / પ્લોટ દસ્તાવેજ', 'BPL / જોબ કાર્ડ', 'પરિવાર આધાર કાર્ડ'] },
+      { id: 'pmay-urban', cat: 'welfare', catGu: 'આવાસ', titleGu: 'પ્રધાનમંત્રી આવાસ યોજના – શહેરી (PMAY-U)', titleEn: 'PMAY – Urban', benefitGu: 'શહેરમાં મકાન માટે ₹૨.૫૦ લાખ સુધી વ્યાજ સબસિડી (CLSS)', sla: 15, fee: 0, docs: ['આવકનો દાખલો (૩-વર્ષ)', 'આધાર કાર્ડ', 'ફ્લેટ/પ્લોટ એગ્રીમેન્ટ'] },
+      { id: 'dr-ambedkar-awas', cat: 'welfare', catGu: 'આવાસ', titleGu: 'ડૉ. આંબેડકર આવાસ યોજના', titleEn: 'Dr. Ambedkar Awas Yojana', benefitGu: 'અનુસૂચિત જાતિ (SC) પરિવારોને મકાન માટે ₹૧,૨૦,૦૦૦ સહાય', sla: 10, fee: 0, docs: ['SC જાતિનો દાખલો', 'આવકનો દાખલો (૩-વર્ષ)', 'પ્લોટ સનદ'] },
+      { id: 'deendayal-awas', cat: 'welfare', catGu: 'આવાસ', titleGu: 'પંડિત દીનદયાળ ઉપાધ્યાય આવાસ યોજના', titleEn: 'Pandit Deendayal Awas Yojana', benefitGu: 'SEBC/OBC પરિવારોને મકાન બાંધકામ માટે ₹૧,૨૦,૦૦૦ સહાય', sla: 10, fee: 0, docs: ['OBC જાતિનો દાખલો', 'આવકનો દાખલો (૩-વર્ષ)', 'પ્લોટ દસ્તાવેજ'] },
+      { id: 'manav-garima', cat: 'welfare', catGu: 'કલ્યાણ', titleGu: 'માનવ ગરિમા યોજના (૨૮ વ્યવસાય કિટ)', titleEn: 'Manav Garima Yojana', benefitGu: '૨૮ વ્યવસાયો માટે વિનામૂલ્યે ઓજારો અને સાધનોની કીટ', sla: 7, fee: 0, docs: ['આધાર & રેશન કાર્ડ', 'જાતિનો દાખલો', 'આવકનો દાખલો (૩-વર્ષ)', 'તાલીમ પુરાવો'] },
+      { id: 'vahli-dikri', cat: 'welfare', catGu: 'કલ્યાણ', titleGu: 'વ્હાલી દીકરી યોજના', titleEn: 'Vahli Dikri Yojana', benefitGu: 'દીકરીના જન્મ પર કુલ ₹૧,૧૦,૦૦૦ સહાય (૩ તબક્કે)', sla: 5, fee: 0, docs: ['દીકરી જન્મ દાખલો (૦૨/૦૮/૧૯ પછી)', 'માતા-પિતા આધાર & લગ્ન દાખલો', 'આવકનો દાખલો (< ₹૨L)'] },
+      { id: 'kunwarbai-mameru', cat: 'welfare', catGu: 'કલ્યાણ', titleGu: 'કુંવરબાઈનું મામેરું યોજના', titleEn: 'Kunwarbai Nu Mameru Yojana', benefitGu: 'દીકરીના લગ્ન પ્રસંગે કન્યાના ખાતામાં સીધા ₹૧૨,૦૦૦ સહાય', sla: 5, fee: 0, docs: ['લગ્ન નોંધણી પ્રમાણપત્ર', 'વર-કન્યા આધાર કાર્ડ', 'આવકનો દાખલો (૩-વર્ષ)'] },
+      { id: 'sathshri-divyang', cat: 'welfare', catGu: 'કલ્યાણ', titleGu: 'સંત સૂરદાસ / સાથશ્રી દિવ્યાંગ પેન્શન', titleEn: 'Sathshri Seva Divyang Pension', benefitGu: '૮૦% કે તેથી વધુ દિવ્યાંગતા ધરાવતા વ્યક્તિઓને ₹૧,૦૦૦ પેન્શન', sla: 5, fee: 0, docs: ['UDID દિવ્યાંગતા કાર્ડ (૮૦%+)', 'આધાર કાર્ડ', 'બેંક પાસબુક'] },
+      { id: 'income-cert', cat: 'welfare', catGu: 'સેવા', titleGu: 'આવકનો દાખલો (૩ વર્ષની માન્યતા)', titleEn: 'Income Certificate (3-Year Legal Validity)', benefitGu: 'તમામ યોજનાઓ માટે સત્તાવાર ૩ નાણાકીય વર્ષ માન્ય આવક દાખલો', sla: 3, fee: 20, docs: ['રેશન કાર્ડ & આધાર કાર્ડ', 'તલાટી આવક પંચનામું', 'લાઈટ બિલ'] },
+      { id: 'caste-cert', cat: 'welfare', catGu: 'સેવા', titleGu: 'જાતિનો દાખલો (SC/ST/SEBC/EWS)', titleEn: 'Caste Certificate', benefitGu: 'અનામત અને શિષ્યવૃત્તિ માટે આજીવન માન્ય જાતિ પ્રમાણપત્ર', sla: 3, fee: 20, docs: ['શાળા છોડ્યાનું પ્રમાણપત્ર (L.C.)', 'પિતાનું L.C.', 'આધાર કાર્ડ'] },
+      { id: 'widow-assistance-scheme', cat: 'soc', catGu: 'આવાસ & કલ્યાણ', titleGu: 'ગંગા સ્વરૂપા વિધવા સહાય યોજના (Widow Assistance)', titleEn: 'Widow Assistance Scheme (Ganga Swarupa)', benefitGu: 'વિધવા માતા-બહેનોને દર મહિને ₹૧,૨૫૦ આર્થિક સહાય પેન્શન સીધું બેંક ખાતામાં', sla: 15, fee: 20, docs: ['પતિના મરણનો દાખલો', 'આવકનો દાખલો (૩ વર્ષ માન્યતા)', 'પુનઃલગ્ન ન કર્યાનું સોગંદનામું', 'આધાર કાર્ડ'] }
+    ];
+
+    let currentSelectedScheme = null;
+    let checkedDocsState = {};
+    let lastOcrMessageGu = '';
+
+    // Render Catalog Generator
+    function renderCatalogHTML(targetId) {
+      const container = document.getElementById(targetId);
+      if (!container) return;
+
+      container.innerHTML = `
+        <div class="space-y-6">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-5">
+            <div>
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#003366] text-xs font-bold border border-blue-200 mb-2">
+                <i class="fa-solid fa-sparkles text-[#FF9933]"></i>
+                <span>ગુજરાત સત્તાવાર સરકારી યોજના પોર્ટલ • ૨૦૨૬</span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-black text-[#003366] tracking-tight">
+                સરકારી યોજનાઓ & સેવાઓ (${SCHEMES_DATA.length}+ Schemes)
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                ખેતીવાડી, આરોગ્ય, શિક્ષણ, આવાસ અને કલ્યાણના કાગળો ચકાસો અને સીધા સ્લોટ બુક કરો.
+              </p>
+            </div>
+            <div class="w-full md:w-80 relative">
+              <i class="fa-solid fa-magnifying-glass text-slate-400 absolute left-3.5 top-3"></i>
+              <input type="text" oninput="filterCatalogSearch(this.value, '${targetId}')" placeholder="યોજના શોધો: ટ્રેક્ટર, MYSY, આવાસ..." class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-300 rounded-xl text-xs font-medium text-slate-900 outline-none focus:border-[#005A9C] shadow-xs">
+            </div>
+          </div>
+
+          <!-- Persona Filter Chips -->
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-bold text-slate-400 mr-1"><i class="fa-solid fa-filter"></i> ઝડપી ફિલ્ટર:</span>
+            <button onclick="filterCatalogByCat('agri', '${targetId}')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200">🌾 હું ખેડૂત છું</button>
+            <button onclick="filterCatalogByCat('edu', '${targetId}')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200">🎓 હું વિદ્યાર્થી છું</button>
+            <button onclick="filterCatalogByCat('health', '${targetId}')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200">👩 મહિલા / માતા</button>
+            <button onclick="filterCatalogByCat('welfare', '${targetId}')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-100 text-slate-700 border border-slate-200">🏠 આવાસ & પેન્શન</button>
+            <button onclick="filterCatalogByCat('all', '${targetId}')" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-[#003366] text-white">બધી જુઓ</button>
+          </div>
+
+          <!-- Schemes Bento Grid -->
+          <div id="${targetId}_grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            ${generateCardsHTML(SCHEMES_DATA)}
+          </div>
+        </div>
+      `;
+    }
+
+    function generateCardsHTML(list) {
+      return list.map(s => `
+        <div onclick="openSchemeDrawerById('${s.id}')" class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-[#005A9C]/50 transition cursor-pointer flex flex-col justify-between group relative overflow-hidden">
+          <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-[#005A9C] via-[#FF9933] to-[#138808]"></div>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[10px] font-black uppercase text-[#003366] bg-[#F5F7FA] border border-slate-200 px-2.5 py-0.5 rounded-full truncate">${s.catGu}</span>
+              <span class="text-[10px] font-bold text-[#138808] bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full shrink-0">${s.fee === 0 ? '● મફત સેવા' : '₹' + s.fee + ' સરકારી ફી'}</span>
+            </div>
+            <div>
+              <h3 class="font-extrabold text-[#003366] text-sm sm:text-base leading-snug group-hover:text-[#005A9C] transition">${s.titleGu}</h3>
+              <p class="text-[11px] text-slate-400 font-medium truncate mt-0.5">${s.titleEn}</p>
+            </div>
+            <div class="bg-[#F5F7FA] border border-slate-200/80 rounded-2xl p-3">
+              <p class="text-[11px] font-bold text-slate-700 line-clamp-2 leading-relaxed">✨ ${s.benefitGu}</p>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
+            <span class="text-slate-500 text-[11px]"><i class="fa-solid fa-file-circle-check text-[#005A9C]"></i> ${s.docs.length} કાગળો જરૂરી</span>
+            <span class="text-[#005A9C] group-hover:text-[#003366] flex items-center gap-1 text-[11px] font-extrabold">
+              <span>કાગળો ચકાસો</span>
+              <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-0.5 transition"></i>
+            </span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterCatalogSearch(query, targetId) {
+      const q = query.toLowerCase().trim();
+      const filtered = SCHEMES_DATA.filter(s => 
+        !q || s.titleGu.toLowerCase().includes(q) || s.titleEn.toLowerCase().includes(q) || s.benefitGu.toLowerCase().includes(q)
+      );
+      document.getElementById(`${targetId}_grid`).innerHTML = generateCardsHTML(filtered);
+    }
+
+    function filterCatalogByCat(cat, targetId) {
+      triggerHaptic('tap');
+      const filtered = cat === 'all' ? SCHEMES_DATA : SCHEMES_DATA.filter(s => s.cat === cat);
+      document.getElementById(`${targetId}_grid`).innerHTML = generateCardsHTML(filtered);
+    }
+
+    // Scheme Drawer Logic
+    function openSchemeDrawerById(schemeId) {
+      triggerHaptic('tap');
+      const scheme = SCHEMES_DATA.find(s => s.id === schemeId);
+      if (!scheme) return;
+      currentSelectedScheme = scheme;
+      checkedDocsState = {};
+
+      document.getElementById('drawerCategoryPill').innerText = scheme.catGu;
+      document.getElementById('drawerTitleGu').innerText = scheme.titleGu;
+      document.getElementById('drawerTitleEn').innerText = scheme.titleEn;
+      document.getElementById('drawerSla').innerText = `${scheme.sla} દિવસ`;
+      document.getElementById('drawerFee').innerText = scheme.fee === 0 ? '₹૦ (મફત)' : `₹${scheme.fee}`;
+      document.getElementById('drawerValidity').innerText = scheme.id.includes('income') ? '૩ વર્ષ' : 'નિયમ મુજબ';
+      document.getElementById('drawerBenefitGu').innerText = scheme.benefitGu;
+
+      renderDrawerDocsList();
+      updateReadinessBar();
+      document.getElementById('drawerOverlay').classList.remove('hidden');
+    }
+
+    function renderDrawerDocsList() {
+      const listContainer = document.getElementById('drawerDocsList');
+      listContainer.innerHTML = currentSelectedScheme.docs.map(doc => `
+        <div onclick="toggleDrawerDoc('${doc}')" class="p-3 rounded-xl border flex items-center justify-between gap-3 cursor-pointer select-none ${checkedDocsState[doc] ? 'bg-emerald-50 border-emerald-300 text-emerald-950' : 'bg-[#F5F7FA] border-slate-200 text-slate-800'}">
+          <div class="flex items-center gap-2.5">
+            <i class="fa-regular ${checkedDocsState[doc] ? 'fa-square-check text-[#138808]' : 'fa-square text-slate-400'} text-base"></i>
+            <span class="text-xs font-bold">${doc}</span>
+          </div>
+          ${doc.includes('આવક') ? '<span class="text-[9px] font-black bg-amber-100 text-[#FF9933] border border-amber-300 px-2 py-0.5 rounded-full">૩-વર્ષ ચેક</span>' : ''}
+        </div>
+      `).join('');
+    }
+
+    function toggleDrawerDoc(doc) {
+      triggerHaptic('tap');
+      checkedDocsState[doc] = !checkedDocsState[doc];
+      renderDrawerDocsList();
+      updateReadinessBar();
+    }
+
+    function updateReadinessBar() {
+      const total = currentSelectedScheme.docs.length;
+      const count = Object.values(checkedDocsState).filter(Boolean).length;
+      const pct = Math.round((count / total) * 100);
+      document.getElementById('readinessProgressBar').style.width = `${pct}%`;
+      document.getElementById('readinessScoreText').innerText = `${count}/${total} કાગળો તૈયાર (${pct}%)`;
+    }
+
+    function closeDrawer() {
+      triggerHaptic('tap');
+      document.getElementById('drawerOverlay').classList.add('hidden');
+    }
+
+    function speakDrawerBenefit() {
+      if (currentSelectedScheme) {
+        speakGujaratiGuidance(currentSelectedScheme.benefitGu);
+      }
+    }
+
+    function shareDrawerOnWhatsApp() {
+      triggerHaptic('success');
+      const docs = currentSelectedScheme.docs.map((d, i) => `${i + 1}. ${d}`).join('\n');
+      const msg = `🏛️ *${currentSelectedScheme.titleGu}* માટે જરૂરી કાગળો:\n\n${docs}\n\n⏱️ નિકાલ: ${currentSelectedScheme.sla} દિવસ | સરકારી ફી: ₹${currentSelectedScheme.fee}\nનાગરિકસેવા AI પોર્ટલ પરથી પ્રમાણિત.`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // Camera Scanner Logic
+    function openCameraScannerFromDrawer() {
+      triggerHaptic('tap');
+      closeDrawer();
+      document.getElementById('cameraSchemeName').innerText = currentSelectedScheme ? currentSelectedScheme.titleGu : 'આવક પ્રમાણપત્ર ચકાસણી';
+      document.getElementById('ocrResultBox').classList.add('hidden');
+      document.getElementById('btnProceedToToken').disabled = true;
+      document.getElementById('btnProceedToToken').className = "px-5 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition bg-slate-200 text-slate-400 cursor-not-allowed";
+      document.getElementById('cameraModal').classList.remove('hidden');
+    }
+
+    function closeCameraModal() {
+      triggerHaptic('tap');
+      document.getElementById('cameraModal').classList.add('hidden');
+    }
+
+    function simulateOcrScan(year) {
+      triggerHaptic('tap');
+      const beam = document.getElementById('scanLaserBeam');
+      beam.classList.remove('hidden');
+
+      setTimeout(() => {
+        beam.classList.add('hidden');
+        const box = document.getElementById('ocrResultBox');
+        box.classList.remove('hidden');
+
+        if (year < 2023) {
+          triggerHaptic('warning');
+          box.className = "p-4 rounded-2xl border transition-all bg-red-50 border-red-300 text-slate-900";
+          document.getElementById('ocrResultIcon').innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-600"></i>';
+          document.getElementById('ocrResultPill').innerText = "● અમાન્ય / મુદત વીતી ગઈ";
+          document.getElementById('ocrResultPill').className = "text-xs font-extrabold px-2 py-0.5 rounded-full bg-red-200 text-red-800";
+          
+          lastOcrMessageGu = `⚠️ આ આવકનો દાખલો વર્ષ ${year} નો છે, જે ૩ વર્ષથી વધુ જૂનો છે અને રદબાતલ થયેલ છે. કૃપા કરીને નવો દાખલો કઢાવવો જરૂરી છે.`;
+          document.getElementById('ocrResultMsgGu').innerText = lastOcrMessageGu;
+          document.getElementById('ocrResultMsgEn').innerText = `⚠️ Issued in ${year} (> 3 years old) and expired under Gujarat RTS rules. Fresh certificate required.`;
+          
+          speakGujaratiGuidance(lastOcrMessageGu);
+          document.getElementById('btnProceedToToken').disabled = true;
+          document.getElementById('btnProceedToToken').className = "px-5 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition bg-slate-200 text-slate-400 cursor-not-allowed";
+        } else {
+          triggerHaptic('success');
+          box.className = "p-4 rounded-2xl border transition-all bg-emerald-50 border-emerald-300 text-slate-900";
+          document.getElementById('ocrResultIcon').innerHTML = '<i class="fa-solid fa-circle-check text-[#138808]"></i>';
+          document.getElementById('ocrResultPill').innerText = "● પ્રમાણિત માન્ય";
+          document.getElementById('ocrResultPill').className = "text-xs font-extrabold px-2 py-0.5 rounded-full bg-emerald-200 text-[#138808]";
+
+          lastOcrMessageGu = `✅ આવક પ્રમાણપત્ર માન્ય છે (વર્ષ ${year} - ૩ વર્ષની કાનૂની મર્યાદામાં). ટોકન બુકિંગ ખુલ્લું છે.`;
+          document.getElementById('ocrResultMsgGu').innerText = lastOcrMessageGu;
+          document.getElementById('ocrResultMsgEn').innerText = `✅ Legally valid (Issued ${year} - within 3-year window). Token booking unlocked.`;
+
+          speakGujaratiGuidance("આવક પ્રમાણપત્ર માન્ય છે. તમે કચેરી ટોકન બુક કરી શકો છો.");
+          const btn = document.getElementById('btnProceedToToken');
+          btn.disabled = false;
+          btn.className = "px-5 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 transition bg-[#005A9C] hover:bg-[#003366] text-white active:scale-95 shadow-md cursor-pointer";
+        }
+      }, 1100);
+    }
+
+    function speakOcrMessage() {
+      if (lastOcrMessageGu) speakGujaratiGuidance(lastOcrMessageGu);
+    }
+
+    
+    let currentScannerMode = 'camera';
+
+    function switchScannerMode(mode) {
+      currentScannerMode = mode;
+      triggerHaptic('tap');
+      
+      const tabCamera = document.getElementById('tabScannerCamera');
+      const tabDrive = document.getElementById('tabScannerDrive');
+      const cameraBox = document.getElementById('cameraViewContainer');
+      const driveBox = document.getElementById('driveViewContainer');
+      const btnSecondary = document.getElementById('btnActionSecondary');
+      const btnSecondaryText = document.getElementById('btnActionSecondaryText');
+
+      if (mode === 'camera') {
+        tabCamera.className = "flex-1 py-3 text-xs font-black text-[#003366] border-b-2 border-[#005A9C] bg-white flex items-center justify-center gap-2 transition cursor-pointer";
+        tabDrive.className = "flex-1 py-3 text-xs font-extrabold text-slate-500 hover:text-[#005A9C] flex items-center justify-center gap-2 transition cursor-pointer";
+        cameraBox.classList.remove('hidden');
+        driveBox.classList.add('hidden');
+        btnSecondaryText.innerText = "ફોટો કેપ્ચર & સ્કેન";
+        btnSecondary.onclick = function() { simulateOcrScan(2025); };
+      } else {
+        tabCamera.className = "flex-1 py-3 text-xs font-extrabold text-slate-500 hover:text-[#005A9C] flex items-center justify-center gap-2 transition cursor-pointer";
+        tabDrive.className = "flex-1 py-3 text-xs font-black text-[#003366] border-b-2 border-[#FF9933] bg-white flex items-center justify-center gap-2 transition cursor-pointer";
+        cameraBox.classList.add('hidden');
+        driveBox.classList.remove('hidden');
+        btnSecondaryText.innerText = "📂 ફાઇલ પસંદ કરો";
+        btnSecondary.onclick = function() { document.getElementById('directFileInput').click(); };
+        speakGujaratiGuidance("ગૂગલ ડ્રાઇવ અથવા કમ્પ્યુટરમાંથી ફાઇલ અથવા ફોલ્ડર અપલોડ કરો.");
+      }
+    }
+
+    function selectDriveFile(type, fileName, year, size) {
+      triggerHaptic('success');
+      const card = document.getElementById('driveSelectedFileCard');
+      card.classList.remove('hidden');
+      document.getElementById('driveSelectedFileName').innerText = "📄 " + fileName;
+      document.getElementById('driveSelectedFileMeta').innerText = "Google Drive Cloud Synced • " + size;
+      
+      speakGujaratiGuidance(fileName + " ગૂગલ ડ્રાઇવમાંથી સફળતાપૂર્વક મેળવવામાં આવ્યું.");
+      simulateOcrScan(year);
+    }
+
+    function handleDirectFileSelect(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      triggerHaptic('success');
+      const card = document.getElementById('driveSelectedFileCard');
+      card.classList.remove('hidden');
+      document.getElementById('driveSelectedFileName').innerText = "📄 " + file.name;
+      document.getElementById('driveSelectedFileMeta').innerText = (file.size / 1024).toFixed(1) + " KB • Local Device File";
+      
+      speakGujaratiGuidance(file.name + " અપલોડ પૂર્ણ. પ્રમાણપત્ર ચકાસણી ચાલુ છે.");
+      simulateOcrScan(2025);
+    }
+
+    function handleDirectFolderSelect(event) {
+      const files = event.target.files;
+      if (!files || files.length === 0) return;
+      triggerHaptic('success');
+      const card = document.getElementById('driveSelectedFileCard');
+      card.classList.remove('hidden');
+      document.getElementById('driveSelectedFileName').innerText = "📁 ફોલ્ડર (" + files.length + " દસ્તાવેજો)";
+      document.getElementById('driveSelectedFileMeta').innerText = "Folder Uploaded • " + files.length + " files processed";
+      
+      speakGujaratiGuidance("દસ્તાવેજોનું ફોલ્ડર સફળતાપૂર્વક અપલોડ થયું. મુખ્ય પ્રમાણપત્ર માન્ય છે.");
+      simulateOcrScan(2025);
+    }
+
+    function importFromGoogleDrive() {
+      switchScannerMode("drive");
+      triggerHaptic('tap');
+      speakGujaratiGuidance("ગૂગલ ડ્રાઇવ / DigiLocker માંથી દસ્તાવેજ ફેચ થઈ રહ્યો છે...");
+      const beam = document.getElementById('scanLaserBeam');
+      beam.classList.remove('hidden');
+      setTimeout(() => {
+        beam.classList.add('hidden');
+        simulateOcrScan(2025);
+      }, 700);
+    }
+
+    function unlockTokenBookingFromScanner() {
+      closeCameraModal();
+      if (!isUserLoggedIn) {
+        triggerHaptic('warning');
+        speakGujaratiGuidance("દસ્તાવેજ પ્રમાણિત! ટોકન મેળવવા માટે પહેલાં નાગરિક લૉગિન કરો.");
+        pendingTokenSchemeTitle = currentDrawerScheme ? currentDrawerScheme.titleGu : "યોજના";
+        openAuthModal("🔒 દસ્તાવેજ પ્રમાણિત! '" + pendingTokenSchemeTitle + "' નો ટોકન મેળવવા માટે નાગરિક લૉગિન ફરજિયાત છે.");
+        return;
+      }
+      triggerHaptic('success');
+      alert("🎉 દસ્તાવેજ પ્રમાણિત! મોહનભાઈ પટેલ માટે '" + (currentDrawerScheme ? currentDrawerScheme.titleGu : "યોજના") + "' નો ટોકન #A-42 જારી થઈ ગયો છે.");
+      showView('dashboard');
+    }
+
+    // View Switching
+    function showView(viewId) {
+      triggerHaptic('tap');
+      ['viewLanding', 'viewServices', 'viewDashboard'].forEach(v => {
+        document.getElementById(v).classList.add('hidden');
+      });
+
+      if (viewId === 'services') {
+        document.getElementById('viewServices').classList.remove('hidden');
+        renderCatalogHTML('fullCatalogContainer');
+      } else if (viewId === 'dashboard') {
+        document.getElementById('viewDashboard').classList.remove('hidden');
+      } else {
+        document.getElementById('viewLanding').classList.remove('hidden');
+        renderCatalogHTML('homeCatalogContainer');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleSearchToServices() {
+      const q = document.getElementById('searchInput').value;
+      showView('services');
+      if (q) filterCatalogSearch(q, 'fullCatalogContainer');
+    }
+
+    function triggerHaptic(type) {
+      if ('vibrate' in navigator) {
+        switch(type) {
+          case 'tap': navigator.vibrate(15); break;
+          case 'success': navigator.vibrate([20, 40, 20]); break;
+          case 'warning': navigator.vibrate([40, 60, 40]); break;
+        }
+      }
+    }
+
+    function speakGujaratiGuidance(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'gu-IN';
+        u.rate = 0.95;
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    function toggleDemoDropdown() {
+      triggerHaptic('tap');
+      document.getElementById('demoDropdown').classList.toggle('hidden');
+    }
+
+    
+    let isUserLoggedIn = false;
+    let pendingTokenSchemeTitle = null;
+
+    function openAuthModal(reason) {
+      triggerHaptic('tap');
+      const notice = document.getElementById('authModalNotice');
+      if (reason) {
+        document.getElementById('authModalNoticeText').innerText = reason;
+        notice.classList.remove('hidden');
+      } else {
+        notice.classList.add('hidden');
+      }
+      document.getElementById('authModal').classList.remove('hidden');
+    }
+
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.add('hidden');
+    }
+
+    function collectTokenFromDrawer() {
+      if (!isUserLoggedIn) {
+        triggerHaptic('warning');
+        speakGujaratiGuidance("ટોકન મેળવવા માટે પહેલાં નાગરિક લૉગિન કરવું ફરજિયાત છે.");
+        pendingTokenSchemeTitle = currentDrawerScheme ? currentDrawerScheme.titleGu : "યોજના";
+        closeDrawer();
+        openAuthModal("🔒 '" + pendingTokenSchemeTitle + "' નો કચેરી ટોકન મેળવવા માટે નાગરિક લૉગિન ફરજિયાત છે.");
+        return;
+      }
+      closeDrawer();
+      triggerHaptic('success');
+      alert("🎉 કચેરી ટોકન ફાળવવામાં આવ્યો! મોહનભાઈ પટેલ માટે '" + (currentDrawerScheme ? currentDrawerScheme.titleGu : "યોજના") + "' નો ટોકન #A-42 સક્રિય છે.");
+      showView('dashboard');
+    }
+
+    function submitCivicLogin(role) {
+      isUserLoggedIn = true;
+      loginAsDemo(role);
+      closeAuthModal();
+
+      if (pendingTokenSchemeTitle) {
+        const title = pendingTokenSchemeTitle;
+        pendingTokenSchemeTitle = null;
+        setTimeout(() => {
+          triggerHaptic('success');
+          speakGujaratiGuidance("લૉગિન સફળ! " + title + " માટે તમારો ટોકન ફાળવવામાં આવ્યો છે.");
+          alert("🎉 લૉગિન સફળ! મોહનભાઈ પટેલ માટે '" + title + "' નો સત્તાવાર ટોકન #A-42 ફાળવવામાં આવ્યો છે.");
+          showView('dashboard');
+        }, 300);
+      }
+    }
+
+    function loginAsDemo(role) {
+      isUserLoggedIn = true;
+      triggerHaptic('success');
+      document.getElementById('demoDropdown').classList.add('hidden');
+      document.getElementById('authGuestButtons').classList.add('hidden');
+      document.getElementById('authUserPill').classList.remove('hidden');
+      showView('dashboard');
+    }
+
+    function resetDemoSession() {
+      isUserLoggedIn = false;
+      pendingTokenSchemeTitle = null;
+      triggerHaptic('warning');
+      document.getElementById('authGuestButtons').classList.remove('hidden');
+      document.getElementById('authUserPill').classList.add('hidden');
+      document.getElementById('demoDropdown').classList.add('hidden');
+      showView('landing');
+    }
+
+    // On Load
+    window.onload = function() {
+      renderCatalogHTML('homeCatalogContainer');
+    };
+  </script>
+
+  <!-- MODAL: 2FA CIVIC LOGIN MODAL (TOKEN SECURITY VALIDATION) -->
+  <div id="authModal" class="hidden fixed inset-0 bg-[#003366]/70 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-200 relative">
+      <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-sm">✕</button>
+      
+      <div class="text-center mb-5">
+        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-[#005A9C] flex items-center justify-center mx-auto text-xl mb-3">
+          <i class="fa-solid fa-shield-halved text-2xl text-[#005A9C]"></i>
+        </div>
+        <h3 class="text-xl font-black text-[#003366]">2FA Civic Login</h3>
+        <p class="text-xs text-slate-500 mt-1">Mobile OTP + Citizen Aadhaar Verification</p>
+      </div>
+
+      <div id="authModalNotice" class="hidden mb-4 p-3 bg-amber-50 border-2 border-[#FF9933] rounded-2xl text-amber-950 text-xs font-bold flex items-start gap-2.5">
+        <i class="fa-solid fa-lock text-[#FF9933] mt-0.5"></i>
+        <div class="text-left">
+          <p class="font-extrabold text-[#003366]">ટોકન સુરક્ષા: લૉગિન ફરજિયાત છે</p>
+          <p id="authModalNoticeText" class="text-[11px] font-medium text-amber-900 mt-0.5">ટોકન ફાળવણી પહેલાં નાગરિક લૉગિન કરવું જરૂરી છે.</p>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1 flex items-center justify-between">
+            <span>Mobile Number (મોબાઇલ નંબર)</span>
+            <button onclick="speakGujaratiGuidance('કૃપા કરીને તમારો દસ આંકડાનો મોબાઈલ નંબર દાખલ કરો.')" class="text-[#005A9C] text-[11px] hover:underline flex items-center gap-1">
+              <i class="fa-solid fa-volume-high"></i> સાંભળો
+            </button>
+          </label>
+          <div class="flex">
+            <span class="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-slate-300 bg-[#F5F7FA] text-slate-500 text-xs font-bold">+91</span>
+            <input type="tel" id="loginPhoneInput" value="9876543210" maxlength="10" class="w-full text-xs font-medium rounded-r-xl border border-slate-300 p-2.5 outline-none focus:border-[#005A9C]">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1 flex items-center justify-between">
+            <span>Aadhaar Card Last 4 Digits (આધાર છેલ્લા ૪ આંકડા)</span>
+            <span class="text-[10px] text-slate-400">UIDAI Safe</span>
+          </label>
+          <input type="password" id="loginAadhaarInput" value="8842" maxlength="4" class="w-full text-xs font-medium rounded-xl border border-slate-300 p-2.5 outline-none focus:border-[#005A9C] tracking-widest text-center text-base">
+        </div>
+
+        <div class="pt-1">
+          <button onclick="submitCivicLogin('farmer')" class="w-full bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-xl py-2 text-xs font-bold flex items-center justify-center gap-2 transition cursor-pointer">
+            <span>⚡ ઝડપી નાગરિક લૉગિન (Nagrik Login)</span>
+          </button>
+        </div>
+
+        <button onclick="submitCivicLogin('farmer')" class="w-full bg-[#005A9C] hover:bg-[#003366] text-white font-bold py-3 rounded-xl text-xs shadow-md active:scale-95 transition flex items-center justify-center gap-2 cursor-pointer">
+          <span>Get Secure OTP & Verify</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

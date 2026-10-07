@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #F5F7FA;
+    color: #1F2937;
+  }
+}
+
+@layer utilities {
+  .qr-pattern {
+    background-image: 
+      radial-gradient(#003366 2px, transparent 2px),
+      radial-gradient(#003366 2px, transparent 2px);
+    background-size: 8px 8px;
+    background-position: 0 0, 4px 4px;
+  }
+}

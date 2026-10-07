@@ -1,0 +1,17 @@
+{
+  "name": "QueueLess Kacheri - NagrikSeva AI",
+  "short_name": "QueueLess",
+  "description": "Zero physical queues for Gujarat Government Kacheris and Jan Seva Kendras",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f2942",
+  "theme_color": "#1e3a8a",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
