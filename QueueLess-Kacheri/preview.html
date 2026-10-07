@@ -362,10 +362,10 @@
 
             <div class="mt-2">
               <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Virtual Token</p>
-              <h2 class="text-4xl sm:text-5xl font-black text-[#FF9933] tracking-tight mt-0.5">#A-42</h2>
+              <h2 id="dashTokenNum" class="text-4xl sm:text-5xl font-black text-[#FF9933] tracking-tight mt-0.5">#A-42</h2>
               <div class="mt-2">
-                <p class="text-xs font-black text-[#003366]">Certificate Services</p>
-                <p class="text-[11px] text-slate-500 font-medium">Caste & Income Certificate Verification</p>
+                <p id="dashTokenCounter" class="text-xs font-black text-[#003366]">Certificate Services</p>
+                <p id="dashTokenOfficer" class="text-[11px] text-slate-500 font-medium">Caste & Income Certificate Verification</p>
               </div>
             </div>
 
@@ -378,35 +378,42 @@
                 <div class="qr-pattern flex-1 my-1.5"></div>
                 <div class="flex justify-between items-end">
                   <div class="w-8 h-8 border-4 border-[#003366] rounded-sm p-0.5"><div class="w-full h-full bg-[#003366]"></div></div>
-                  <span class="text-[9px] font-mono font-black text-[#003366]">Qless-A42-GP</span>
+                  <span id="dashTokenQrLabel" class="text-[9px] font-mono font-black text-[#003366]">Qless-A42-GP</span>
                 </div>
               </div>
-              <p class="text-[11px] font-mono font-bold text-slate-500 mt-2">Qless-A42-GP (Encrypted Token ID)</p>
+              <p id="dashOfficeLocation" class="text-[11px] font-mono font-bold text-slate-500 mt-2">Qless-A42-GP (Encrypted Token ID)</p>
             </div>
 
             <div class="text-center space-y-1">
               <p class="text-sm font-extrabold text-[#003366]">
-                Arrive by <span class="text-red-600 font-black">11:20 AM</span>
+                Arrive by <span id="dashArriveTime" class="text-red-600 font-black">11:20 AM</span>
               </p>
-              <p class="text-xs font-bold text-[#FF9933]">
+              <p id="dashSlotTime" class="text-xs font-bold text-[#FF9933]">
                 ⏱️ 12:35 remaining (Traffic Buffer included)
               </p>
             </div>
 
             <div class="mt-5 grid grid-cols-2 gap-2">
-              <button onclick="handleRunningLate()" class="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold py-2 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5">
+              <button onclick="handleRunningLate()" class="bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-bold py-2 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer">
                 <i class="fa-solid fa-clock-rotate-left"></i>
                 <span>I'm Running Late (+3)</span>
               </button>
-              <button onclick="speakGujaratiGuidance()" class="bg-blue-50 hover:bg-blue-100 text-[#003366] border border-blue-200 font-bold py-2 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5">
+              <button onclick="speakDashboardTokenGuidance()" class="bg-blue-50 hover:bg-blue-100 text-[#003366] border border-blue-200 font-bold py-2 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer">
                 <i class="fa-solid fa-volume-high"></i>
                 <span>સાંભળો (Audio)</span>
               </button>
             </div>
 
+            <div class="mt-3">
+              <button onclick="openDigitalTokenPassModal()" class="w-full bg-[#003366] hover:bg-[#002244] text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm transition cursor-pointer">
+                <i class="fa-solid fa-ticket text-[#FF9933]"></i>
+                <span>સત્તાવાર ડિજિટલ ટોકન પાસ જુઓ (View Pass)</span>
+              </button>
+            </div>
+
             <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
               <span class="text-slate-500">Your Queue Position</span>
-              <span class="text-xl font-black text-[#003366] bg-[#F5F7FA] px-3 py-1 rounded-xl">14</span>
+              <span id="dashQueuePos" class="text-xl font-black text-[#003366] bg-[#F5F7FA] px-3 py-1 rounded-xl">14</span>
             </div>
           </div>
         </div>
@@ -1205,8 +1212,7 @@
         return;
       }
       triggerHaptic('success');
-      alert("🎉 દસ્તાવેજ પ્રમાણિત! મોહનભાઈ પટેલ માટે '" + (currentDrawerScheme ? currentDrawerScheme.titleGu : "યોજના") + "' નો ટોકન #A-42 જારી થઈ ગયો છે.");
-      showView('dashboard');
+      openSlotBookingModal(currentDrawerScheme);
     }
 
     // View Switching
@@ -1289,9 +1295,8 @@
         return;
       }
       closeDrawer();
-      triggerHaptic('success');
-      alert("🎉 કચેરી ટોકન ફાળવવામાં આવ્યો! મોહનભાઈ પટેલ માટે '" + (currentDrawerScheme ? currentDrawerScheme.titleGu : "યોજના") + "' નો ટોકન #A-42 સક્રિય છે.");
-      showView('dashboard');
+      triggerHaptic('tap');
+      openSlotBookingModal(currentDrawerScheme);
     }
 
     function submitCivicLogin(role) {
@@ -1304,9 +1309,8 @@
         pendingTokenSchemeTitle = null;
         setTimeout(() => {
           triggerHaptic('success');
-          speakGujaratiGuidance("લૉગિન સફળ! " + title + " માટે તમારો ટોકન ફાળવવામાં આવ્યો છે.");
-          alert("🎉 લૉગિન સફળ! મોહનભાઈ પટેલ માટે '" + title + "' નો સત્તાવાર ટોકન #A-42 ફાળવવામાં આવ્યો છે.");
-          showView('dashboard');
+          speakGujaratiGuidance("લૉગિન સફળ! હવે કચેરી સ્લોટ અને કાઉન્ટર પસંદ કરો.");
+          openSlotBookingModal(currentDrawerScheme);
         }, 300);
       }
     }
@@ -1320,14 +1324,367 @@
       showView('dashboard');
     }
 
-    function resetDemoSession() {
-      isUserLoggedIn = false;
-      pendingTokenSchemeTitle = null;
+    // ============================================================
+    // PHASE 3: 33 DISTRICTS & TALUKAS JURISDICTION DATASET
+    // ============================================================
+    const GUJARAT_DISTRICTS_DATA = [
+      { id: 'rajkot', nameGu: 'રાજકોટ', nameEn: 'Rajkot', talukas: [
+        { id: 'gondal', nameGu: 'ગોંડલ', officeGu: 'જન સેવા કેન્દ્ર • મામલતદાર કચેરી ગોંડલ', officer: 'પી. આર. જાડેજા' },
+        { id: 'rajkot-rural', nameGu: 'રાજકોટ ગ્રામ્ય', officeGu: 'જન સેવા કેન્દ્ર • મામલતદાર કચેરી રાજકોટ ગ્રામ્ય', officer: 'ડી. એચ. વાઘેલા' },
+        { id: 'kotda-sangani', nameGu: 'કોટડા સાંગાણી', officeGu: 'મામલતદાર કચેરી કોટડા સાંગાણી', officer: 'વી. કે. મહેતા' },
+        { id: 'jasdan', nameGu: 'જસદણ', officeGu: 'મામલતદાર કચેરી જસદણ', officer: 'એસ. ટી. પટેલ' },
+        { id: 'dhoraji', nameGu: 'ધોરાજી', officeGu: 'જન સેવા કેન્દ્ર ધોરાજી', officer: 'કે. એમ. ત્રિવેદી' }
+      ]},
+      { id: 'ahmedabad', nameGu: 'અમદાવાદ', nameEn: 'Ahmedabad', talukas: [
+        { id: 'ahmedabad-city-west', nameGu: 'અમદાવાદ પશ્ચિમ', officeGu: 'જન સેવા કેન્દ્ર • કલેક્ટર કચેરી અમદાવાદ પશ્ચિમ', officer: 'આર. એમ. પટેલ' },
+        { id: 'ahmedabad-city-east', nameGu: 'અમદાવાદ પૂર્વ', officeGu: 'જન સેવા કેન્દ્ર અમદાવાદ પૂર્વ', officer: 'બી. એન. શાહ' },
+        { id: 'daskroi', nameGu: 'દસ્ક્રોઈ', officeGu: 'તાલુકા મામલતદાર કચેરી દસ્ક્રોઈ', officer: 'એચ. કે. જોશી' },
+        { id: 'sanand', nameGu: 'સાણંદ', officeGu: 'જન સેવા કેન્દ્ર સાણંદ', officer: 'એન. વી. દેસાઈ' }
+      ]},
+      { id: 'surat', nameGu: 'સુરત', nameEn: 'Surat', talukas: [
+        { id: 'surat-city-majura', nameGu: 'મજુરા (સુરત શહેર)', officeGu: 'જન સેવા કેન્દ્ર • મામલતદાર કચેરી મજુરા', officer: 'એમ. કે. સોલંકી' },
+        { id: 'choryasi', nameGu: 'ચોર્યાસી', officeGu: 'મામલતદાર કચેરી ચોર્યાસી', officer: 'પી. સી. પટેલ' },
+        { id: 'kamrej', nameGu: 'કામરેજ', officeGu: 'જન સેવા કેન્દ્ર કામરેજ', officer: 'વી. બી. ગામીત' },
+        { id: 'bardoli', nameGu: 'બારડોલી', officeGu: 'સબ-ડિવિઝનલ કચેરી બારડોલી', officer: 'કે. ડી. ચૌધરી' }
+      ]},
+      { id: 'vadodara', nameGu: 'વડોદરા', nameEn: 'Vadodara', talukas: [
+        { id: 'vadodara-west', nameGu: 'વડોદરા પશ્ચિમ', officeGu: 'જન સેવા કેન્દ્ર વડોદરા પશ્ચિમ', officer: 'એન. જે. પંડ્યા' },
+        { id: 'vadodara-rural', nameGu: 'વડોદરા ગ્રામ્ય', officeGu: 'મામલતદાર કચેરી વડોદરા ગ્રામ્ય', officer: 'એસ. એસ. પરમાર' },
+        { id: 'padra', nameGu: 'પાદરા', officeGu: 'જન સેવા કેન્દ્ર પાદરા', officer: 'એમ. આર. બારિયા' }
+      ]},
+      { id: 'bhavnagar', nameGu: 'ભાવનગર', nameEn: 'Bhavnagar', talukas: [
+        { id: 'bhavnagar-city', nameGu: 'ભાવનગર શહેર', officeGu: 'જન સેવા કેન્દ્ર ભાવનગર', officer: 'જે. ડી. ગોહિલ' },
+        { id: 'palitana', nameGu: 'પાલીતાણા', officeGu: 'મામલતદાર કચેરી પાલીતાણા', officer: 'આર. કે. મોરી' }
+      ]},
+      { id: 'jamnagar', nameGu: 'જામનગર', nameEn: 'Jamnagar', talukas: [
+        { id: 'jamnagar-city', nameGu: 'જામનગર શહેર', officeGu: 'જન સેવા કેન્દ્ર જામનગર શહેર', officer: 'એચ. પી. જાડેજા' },
+        { id: 'dhrol', nameGu: 'ધ્રોલ', officeGu: 'મામલતદાર કચેરી ધ્રોલ', officer: 'એન. જી. વાળા' }
+      ]},
+      { id: 'junagadh', nameGu: 'જૂનાગઢ', nameEn: 'Junagadh', talukas: [
+        { id: 'junagadh-city', nameGu: 'જૂનાગઢ શહેર', officeGu: 'જન સેવા કેન્દ્ર જૂનાગઢ', officer: 'કે. એલ. ચુડાસમા' },
+        { id: 'keshod', nameGu: 'કેશોદ', officeGu: 'મામલતદાર કચેરી કેશોદ', officer: 'ડી. એસ. પરમાર' }
+      ]},
+      { id: 'kutch', nameGu: 'કચ્છ', nameEn: 'Kutch', talukas: [
+        { id: 'bhuj', nameGu: 'ભુજ', officeGu: 'જન સેવા કેન્દ્ર • કલેક્ટર કચેરી ભુજ', officer: 'એમ. બી. આહીર' },
+        { id: 'anjar', nameGu: 'અંજાર', officeGu: 'મામલતદાર કચેરી અંજાર', officer: 'પી. વી. મહેશ્વરી' }
+      ]},
+      { id: 'gandhinagar', nameGu: 'ગાંધીનગર', nameEn: 'Gandhinagar', talukas: [
+        { id: 'gandhinagar-city', nameGu: 'ગાંધીનગર શહેર', officeGu: 'જન સેવા કેન્દ્ર સેક્ટર-૧૧ ગાંધીનગર', officer: 'એસ. એન. વ્યાસ' },
+        { id: 'kalol', nameGu: 'કલોલ', officeGu: 'મામલતદાર કચેરી કલોલ', officer: 'વી. એમ. ઠાકોર' }
+      ]},
+      { id: 'anand', nameGu: 'આણંદ', nameEn: 'Anand', talukas: [
+        { id: 'anand-city', nameGu: 'આણંદ શહેર', officeGu: 'જન સેવા કેન્દ્ર આણંદ', officer: 'આર. બી. પટેલ' }
+      ]},
+      { id: 'mehsana', nameGu: 'મહેસાણા', nameEn: 'Mehsana', talukas: [
+        { id: 'mehsana-city', nameGu: 'મહેસાણા શહેર', officeGu: 'જન સેવા કેન્દ્ર મહેસાણા', officer: 'પી. કે. ચૌધરી' }
+      ]},
+      { id: 'morbi', nameGu: 'મોરબી', nameEn: 'Morbi', talukas: [
+        { id: 'morbi-city', nameGu: 'મોરબી શહેર', officeGu: 'મામલતદાર કચેરી મોરબી', officer: 'કે. એચ. પટેલ' }
+      ]}
+    ];
+
+    // 2026 GUJARAT GAZETTE HOLIDAYS
+    const GUJARAT_GAZETTE_HOLIDAYS_2026 = {
+      '2026-01-14': 'ઉત્તરાયણ (મકરસંક્રાંતિ)',
+      '2026-01-15': 'વાસી ઉત્તરાયણ',
+      '2026-01-26': 'પ્રજાસત્તાક દિન (Republic Day)',
+      '2026-02-15': 'મહાશિવરાત્રી',
+      '2026-03-04': 'હોળી-ધૂળેટી',
+      '2026-04-14': 'ડૉ. બાબાસાહેબ આંબેડકર જયંતિ',
+      '2026-05-01': 'ગુજરાત સ્થાપના દિન',
+      '2026-08-15': 'સ્વતંત્રતા દિવસ (Independence Day)',
+      '2026-08-28': 'રક્ષાબંધન',
+      '2026-09-04': 'શ્રીકૃષ્ણ જન્માષ્ટમી',
+      '2026-10-02': 'ગાંધી જયંતિ',
+      '2026-10-20': 'દશેરા / વિજયાદશમી',
+      '2026-11-09': 'દિવાળી (લક્ષ્મીપૂજન)',
+      '2026-11-10': 'બેસતું વર્ષ (નૂતન વર્ષાભિનંદન)',
+      '2026-11-11': 'ભાઈબીજ',
+      '2026-12-25': 'નાતાલ (Christmas)'
+    };
+
+    // Active Booking Details
+    let currentBooking = {
+      tokenNum: '#A-42',
+      districtName: 'રાજકોટ',
+      talukaName: 'ગોંડલ',
+      officeName: 'જન સેવા કેન્દ્ર • મામલતદાર કચેરી ગોંડલ',
+      officerName: 'પી. આર. જાડેજા',
+      counterNum: 2,
+      counterName: 'જન સેવા પ્રમાણપત્રો (આવક/જાતિ)',
+      date: '2026-10-07',
+      slotId: 'slot-2',
+      slotTime: '11:30 AM - 12:30 PM',
+      arriveTime: '11:20 AM',
+      lateShiftCount: 0,
+      lateMinutes: 0
+    };
+
+    // Populate District and Taluka Dropdowns
+    function initDistrictDropdowns() {
+      const distSelect = document.getElementById('slotDistrictSelect');
+      if (!distSelect) return;
+      distSelect.innerHTML = '';
+      GUJARAT_DISTRICTS_DATA.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d.id;
+        opt.innerText = `${d.nameGu} (${d.nameEn})`;
+        distSelect.appendChild(opt);
+      });
+      onDistrictChanged();
+    }
+
+    function onDistrictChanged() {
+      const distId = document.getElementById('slotDistrictSelect').value;
+      const dist = GUJARAT_DISTRICTS_DATA.find(d => d.id === distId) || GUJARAT_DISTRICTS_DATA[0];
+      const talSelect = document.getElementById('slotTalukaSelect');
+      talSelect.innerHTML = '';
+      dist.talukas.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.innerText = `${t.nameGu} - ${t.officeGu}`;
+        talSelect.appendChild(opt);
+      });
+      updateCounterRecommendation();
+    }
+
+    function checkDateIsHoliday(dateStr) {
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return { isClosed: false };
+
+      const day = d.getDay(); // 0 = Sun
+      if (day === 0) {
+        return { isClosed: true, reason: 'રવિવાર: સરકારી કચેરીમાં સાપ્તાહિક રજા હોવાથી સ્લોટ બુકિંગ બંધ છે.' };
+      }
+
+      if (day === 6) {
+        const dom = d.getDate();
+        if ((dom >= 8 && dom <= 14) || (dom >= 22 && dom <= 28)) {
+          return { isClosed: true, reason: 'બીજો / ચોથો શનિવાર: ગુજરાત સરકાર નિયમ મુજબ કચેરી બંધ છે.' };
+        }
+      }
+
+      const ymd = dateStr.slice(0, 10);
+      if (GUJARAT_GAZETTE_HOLIDAYS_2026[ymd]) {
+        return { isClosed: true, reason: `જાહેર રજા: ${GUJARAT_GAZETTE_HOLIDAYS_2026[ymd]} નિમિત્તે કચેરી બંધ છે.` };
+      }
+
+      return { isClosed: false };
+    }
+
+    function onDateChanged() {
+      const dateVal = document.getElementById('slotDateInput').value;
+      const chk = checkDateIsHoliday(dateVal);
+      const warnBox = document.getElementById('slotHolidayWarning');
+      const confirmBtn = document.getElementById('slotConfirmBtn');
+      const slotsContainer = document.getElementById('slotsGridContainer');
+
+      if (chk.isClosed) {
+        document.getElementById('slotHolidayReason').innerText = chk.reason;
+        warnBox.classList.remove('hidden');
+        confirmBtn.disabled = true;
+        confirmBtn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+        confirmBtn.classList.remove('bg-[#003366]', 'hover:bg-[#002244]', 'text-white');
+        slotsContainer.classList.add('opacity-40', 'pointer-events-none');
+      } else {
+        warnBox.classList.add('hidden');
+        confirmBtn.disabled = false;
+        confirmBtn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+        confirmBtn.classList.add('bg-[#003366]', 'hover:bg-[#002244]', 'text-white');
+        slotsContainer.classList.remove('opacity-40', 'pointer-events-none');
+      }
+    }
+
+    let selectedSlotId = 'slot-2';
+    let selectedSlotTime = '11:30 AM - 12:30 PM';
+
+    function selectSlotBtn(btn, slotId, timeRange) {
+      triggerHaptic('tap');
+      selectedSlotId = slotId;
+      selectedSlotTime = timeRange;
+      document.querySelectorAll('.slot-card-btn').forEach(b => {
+        b.classList.remove('ring-2', 'ring-blue-600', 'bg-[#003366]', 'text-white');
+        b.classList.add('bg-white', 'text-gray-800');
+      });
+      btn.classList.add('ring-2', 'ring-blue-600', 'bg-[#003366]', 'text-white');
+      btn.classList.remove('bg-white', 'text-gray-800');
+    }
+
+    function updateCounterRecommendation() {
+      const sc = currentDrawerScheme;
+      let counterNum = 2;
+      let counterName = 'જન સેવા પ્રમાણપત્રો (આવક/જાતિ)';
+      let reason = 'આવક અને જાતિના સત્તાવાર દાખલા માટે જન સેવા કાઉન્ટર ૨ ફાળવેલ છે.';
+
+      if (sc) {
+        const id = sc.id.toLowerCase();
+        if (id.includes('712') || id.includes('khedut') || id.includes('crop') || id.includes('tractor') || sc.category === 'agriculture') {
+          counterNum = 4;
+          counterName = 'ઈ-ધરા કેન્દ્ર (૭/૧૨ & ખેતી)';
+          reason = 'ખેતીવાડી સહાય અને જમીન રેકોર્ડ્સ માટે ઈ-ધરા કાઉન્ટર ૪ ફાળવેલ છે.';
+        } else if (id.includes('aadhaar')) {
+          counterNum = 5;
+          counterName = 'આધાર બાયોમેટ્રિક કેન્દ્ર';
+          reason = 'આધાર અપડેટ અને બાયોમેટ્રિક માટે કાઉન્ટર ૫ ફાળવેલ છે.';
+        } else if (id.includes('ration') || id.includes('nfsa') || id.includes('poshan')) {
+          counterNum = 3;
+          counterName = 'રેશનકાર્ડ & અન્ન પુરવઠા ડેસ્ક';
+          reason = 'રેશનકાર્ડ સેવાઓ માટે કાઉન્ટર ૩ ફાળવેલ છે.';
+        } else if (id.includes('awas') || id.includes('pmay')) {
+          counterNum = 6;
+          counterName = 'આવાસ યોજના & ગ્રામ વિકાસ ડેસ્ક';
+          reason = 'પ્રધાનમંત્રી આવાસ માટે કાઉન્ટર ૬ ફાળવેલ છે.';
+        } else if (sc.category === 'healthcare' || sc.category === 'welfare') {
+          counterNum = 1;
+          counterName = 'સમાજ કલ્યાણ & પેન્શન ડેસ્ક';
+          reason = 'સમાજ કલ્યાણ અને સહાય માટે કાઉન્ટર ૧ ફાળવેલ છે.';
+        }
+      }
+
+      document.getElementById('slotRoutingBadge').innerText = 'C' + counterNum;
+      document.getElementById('slotRoutingTitle').innerText = `સ્માર્ટ કાઉન્ટર રાઉટીંગ: કાઉન્ટર ${counterNum} - ${counterName}`;
+      document.getElementById('slotRoutingReason').innerText = reason;
+      
+      const distId = document.getElementById('slotDistrictSelect').value;
+      const dist = GUJARAT_DISTRICTS_DATA.find(d => d.id === distId) || GUJARAT_DISTRICTS_DATA[0];
+      const talId = document.getElementById('slotTalukaSelect').value;
+      const tal = dist.talukas.find(t => t.id === talId) || dist.talukas[0];
+      document.getElementById('slotRoutingOfficer').innerText = tal.officer;
+    }
+
+    function openSlotBookingModal(scheme) {
+      triggerHaptic('tap');
+      initDistrictDropdowns();
+      if (scheme) {
+        document.getElementById('slotModalSchemeSubtitle').innerText = scheme.titleGu;
+      }
+      // set date default to 2026-10-07
+      const dateInp = document.getElementById('slotDateInput');
+      if (!dateInp.value) dateInp.value = '2026-10-07';
+      onDateChanged();
+      document.getElementById('slotBookingModal').classList.remove('hidden');
+    }
+
+    function closeSlotBookingModal() {
+      triggerHaptic('tap');
+      document.getElementById('slotBookingModal').classList.add('hidden');
+    }
+
+    function confirmSlotBooking() {
+      const distId = document.getElementById('slotDistrictSelect').value;
+      const dist = GUJARAT_DISTRICTS_DATA.find(d => d.id === distId) || GUJARAT_DISTRICTS_DATA[0];
+      const talId = document.getElementById('slotTalukaSelect').value;
+      const tal = dist.talukas.find(t => t.id === talId) || dist.talukas[0];
+      const dateVal = document.getElementById('slotDateInput').value;
+
+      // Generate random official token
+      const tokenLetters = ['A', 'B', 'C', 'D'];
+      const letter = tokenLetters[Math.floor(Math.random() * tokenLetters.length)];
+      const num = Math.floor(10 + Math.random() * 89);
+      const tokenNumber = `#${letter}-${num}`;
+
+      currentBooking = {
+        tokenNum: tokenNumber,
+        districtName: dist.nameGu,
+        talukaName: tal.nameGu,
+        officeName: tal.officeGu,
+        officerName: tal.officer,
+        counterNum: parseInt(document.getElementById('slotRoutingBadge').innerText.replace('C','')) || 2,
+        counterName: document.getElementById('slotRoutingTitle').innerText.split(' - ')[1] || 'જન સેવા',
+        date: dateVal,
+        slotId: selectedSlotId,
+        slotTime: selectedSlotTime,
+        arriveTime: '11:20 AM',
+        lateShiftCount: 0,
+        lateMinutes: 0
+      };
+
+      closeSlotBookingModal();
+      triggerHaptic('success');
+      speakGujaratiGuidance(`સ્લોટ બુકિંગ સફળ! તમારો કચેરી ટોકન ${currentBooking.tokenNum} જારી થયો છે.`);
+
+      // Update Live Dashboard with the new booking
+      updateLiveDashboard();
+      showView('dashboard');
+      openDigitalTokenPassModal();
+    }
+
+    function updateLiveDashboard() {
+      document.getElementById('dashTokenNum').innerText = currentBooking.tokenNum;
+      document.getElementById('dashTokenCounter').innerText = `કાઉન્ટર ${currentBooking.counterNum} • ${currentBooking.counterName}`;
+      document.getElementById('dashTokenOfficer').innerText = `ડેસ્ક અધિકારી: ${currentBooking.officerName}`;
+      document.getElementById('dashOfficeLocation').innerText = `${currentBooking.officeName}`;
+      document.getElementById('dashTokenQrLabel').innerText = `Qless-${currentBooking.tokenNum.replace('#','')}-GP`;
+      document.getElementById('dashSlotTime').innerText = `⏱️ ${currentBooking.slotTime} (સ્લોટ બુકિંગ)`;
+      document.getElementById('dashArriveTime').innerText = currentBooking.arriveTime;
+    }
+
+    function openDigitalTokenPassModal() {
+      triggerHaptic('tap');
+      // Sync pass modal fields
+      document.getElementById('passTokenNum').innerText = currentBooking.tokenNum;
+      document.getElementById('passOfficeName').innerText = currentBooking.officeName;
+      document.getElementById('passSchemeName').innerText = currentDrawerScheme ? currentDrawerScheme.titleGu : 'ગુજરાત સરકાર જન સેવા';
+      document.getElementById('passCounterInfo').innerText = `કાઉન્ટર ${currentBooking.counterNum}: ${currentBooking.counterName}`;
+      document.getElementById('passOfficerInfo').innerText = currentBooking.officerName;
+      document.getElementById('passSlotTime').innerText = currentBooking.slotTime;
+      document.getElementById('passDate').innerText = currentBooking.date;
+      document.getElementById('passLocation').innerText = `${currentBooking.officeName}, જિલ્લો: ${currentBooking.districtName}`;
+      document.getElementById('passQrSub').innerText = `કચેરી સ્કેનર ID: QLESS-${currentBooking.tokenNum.replace('#','')}-GP`;
+
+      document.getElementById('digitalTokenPassModal').classList.remove('hidden');
+    }
+
+    function closeDigitalTokenPassModal() {
+      triggerHaptic('tap');
+      document.getElementById('digitalTokenPassModal').classList.add('hidden');
+    }
+
+    // Dynamic "I'm Running Late" feature (+3 slots shifter)
+    function shiftRunningLatePass() {
       triggerHaptic('warning');
-      document.getElementById('authGuestButtons').classList.remove('hidden');
-      document.getElementById('authUserPill').classList.add('hidden');
-      document.getElementById('demoDropdown').classList.add('hidden');
-      showView('landing');
+      currentBooking.lateShiftCount += 1;
+      currentBooking.lateMinutes += 36;
+      currentBooking.arriveTime = `11:56 AM (+${currentBooking.lateMinutes}m)`;
+
+      // Update UI
+      document.getElementById('passLateBadge').innerText = `${currentBooking.lateShiftCount} વખત ખસેડેલ`;
+      document.getElementById('passLateBadge').classList.remove('hidden');
+      document.getElementById('passWaitTime').innerText = `અંદાજિત રાહ: ~${18 + currentBooking.lateMinutes} મિનિટ`;
+      document.getElementById('passAheadCount').innerText = `આગળ ${2 + currentBooking.lateShiftCount * 3} નાગરિકો બાકી`;
+
+      updateLiveDashboard();
+
+      speakGujaratiGuidance("તમારો ટોકન ૩ સ્લોટ પાછળ ખસેડવામાં આવ્યો છે. કાઉન્ટર તમારો નંબર છોડશે નહીં.");
+      alert(`⚠️ મોડું થવાની વિનંતી મંજૂર!\n\nતમારો ટોકન ૩ સ્લોટ (+૩૬ મિનિટ) આગળ ધકેલવામાં આવ્યો છે.\nનવો અંદાજિત સમય: +${currentBooking.lateMinutes} મિનિટ પછી.\nકાઉન્ટર અધિકારી તમારો વારો સ્કીપ નહીં કરે.`);
+    }
+
+    function handleRunningLate() {
+      shiftRunningLatePass();
+    }
+
+    function speakDashboardTokenGuidance() {
+      triggerHaptic('tap');
+      speakGujaratiGuidance(`નમસ્તે મોહનભાઈ પટેલ, તમારો ટોકન નંબર ${currentBooking.tokenNum} સક્રિય છે. કાઉન્ટર ${currentBooking.counterNum} પર સમયસર પહોંચો.`);
+    }
+
+    function printTokenPass() {
+      triggerHaptic('success');
+      window.print();
+    }
+
+    function sharePassOnWhatsApp() {
+      triggerHaptic('tap');
+      const msg = encodeURIComponent(
+        `🏛️ ગુજરાત સરકાર ઈ-જન સેવા ટોકન પાસ\n` +
+        `ટોકન નંબર: ${currentBooking.tokenNum}\n` +
+        `યોજના: ${currentDrawerScheme ? currentDrawerScheme.titleGu : 'જન સેવા'}\n` +
+        `કચેરી: ${currentBooking.officeName}\n` +
+        `કાઉન્ટર: ${currentBooking.counterNum} (${currentBooking.counterName})\n` +
+        `સમય સ્લોટ: ${currentBooking.slotTime}\n` +
+        `GRTSA માન્ય ડિજિટલ પાસ.`
+      );
+      window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
     }
 
     // On Load
@@ -1335,6 +1692,7 @@
       renderCatalogHTML('homeCatalogContainer');
     };
   </script>
+
 
   <!-- MODAL: 2FA CIVIC LOGIN MODAL (TOKEN SECURITY VALIDATION) -->
   <div id="authModal" class="hidden fixed inset-0 bg-[#003366]/70 backdrop-blur-xs z-50 flex items-center justify-center p-4">
@@ -1390,6 +1748,357 @@
           <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 3 MODAL 1: 33 DISTRICTS & TALUKAS CAPPED SLOT BOOKING  -->
+  <!-- ============================================================ -->
+  <div id="slotBookingModal" class="hidden fixed inset-0 bg-[#003366]/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-3xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh] my-auto">
+      
+      <!-- Modal Header -->
+      <div class="bg-[#003366] text-white p-4 sm:p-5 flex items-center justify-between border-b border-blue-900 sticky top-0 z-10">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/20 text-[#FF9933] text-lg font-bold">
+            <i class="fa-solid fa-building-columns"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-base sm:text-lg font-bold">કચેરી સ્લોટ & કાઉન્ટર પસંદગી</h3>
+              <span class="bg-[#138808] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">GRTSA Capped</span>
+            </div>
+            <p id="slotModalSchemeSubtitle" class="text-xs text-blue-200 mt-0.5">ગુજરાતના તમામ ૩૩ જિલ્લાઓ & તાલુકા મથકો</p>
+          </div>
+        </div>
+        <button onclick="closeSlotBookingModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-5 flex-1 text-[#1F2937]">
+        
+        <!-- STEP 1: JURISDICTION (DISTRICT & TALUKA) -->
+        <section class="bg-gray-50 border border-gray-200 rounded-2xl p-4">
+          <div class="flex items-center gap-2 mb-3 text-[#005A9C]">
+            <i class="fa-solid fa-location-dot"></i>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-gray-700">
+              પગલું ૧: અધિકારક્ષેત્ર પસંદ કરો (District & Taluka Mamlatdar Office)
+            </h4>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">
+                જિલ્લો (District) • ૩૩ ઉપલબ્ધ
+              </label>
+              <select id="slotDistrictSelect" onchange="onDistrictChanged()" class="w-full bg-white border border-gray-300 rounded-xl px-3 py-2 text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005A9C] cursor-pointer">
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">
+                તાલુકા મામલતદાર કચેરી (Jan Seva Kendra)
+              </label>
+              <select id="slotTalukaSelect" onchange="updateCounterRecommendation()" class="w-full bg-white border border-gray-300 rounded-xl px-3 py-2 text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005A9C] cursor-pointer">
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 2: DATE PICKER & GAZETTE HOLIDAY BLOCKER -->
+        <section class="bg-gray-50 border border-gray-200 rounded-2xl p-4">
+          <div class="flex items-center gap-2 mb-3 text-[#005A9C]">
+            <i class="fa-solid fa-calendar-days"></i>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-gray-700">
+              પગલું ૨: મુલાકાતની તારીખ (Gazette Holiday Blocker Enforced)
+            </h4>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+            <input type="date" id="slotDateInput" value="2026-10-07" min="2026-01-01" max="2026-12-31" onchange="onDateChanged()" class="bg-white border border-gray-300 rounded-xl px-3 py-2 text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#005A9C] cursor-pointer">
+            <span class="text-xs text-gray-500">
+              સરકારી સમય: સવારે ૧૦:૩૦ થી સાંજે ૦૬:૧૦ | રવિવાર & ૨જા-૪થા શનિવારે બંધ
+            </span>
+          </div>
+
+          <!-- HOLIDAY WARNING BANNER -->
+          <div id="slotHolidayWarning" class="hidden mt-3 p-3.5 bg-red-50 border border-red-200 rounded-2xl flex items-start gap-3 text-red-800 animate-in fade-in">
+            <i class="fa-solid fa-triangle-exclamation text-red-600 text-lg mt-0.5"></i>
+            <div>
+              <h5 class="text-xs font-bold text-red-900 flex items-center gap-2">
+                <span>સરકારી કચેરી બંધ છે (Office Closed)</span>
+                <span class="bg-red-200 text-red-900 text-[10px] px-2 py-0.5 rounded-full">નો-બુકિંગ દિવસ</span>
+              </h5>
+              <p id="slotHolidayReason" class="text-xs mt-1 text-red-700 font-medium"></p>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 3: CAPPED TIME SLOTS (10:30 AM - 06:10 PM with LUNCH BLACKOUT) -->
+        <section class="bg-gray-50 border border-gray-200 rounded-2xl p-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2 text-[#005A9C]">
+              <i class="fa-solid fa-clock"></i>
+              <h4 class="text-xs font-bold uppercase tracking-wider text-gray-700">
+                પગલું ૩: સમય સ્લોટ પસંદ કરો (Max 5 Tokens / Hour Capacity)
+              </h4>
+            </div>
+            <span class="text-[11px] font-semibold text-[#138808]">
+              🟢 ખાલી | 🟡 મધ્યમ | 🔴 હાઉસફુલ
+            </span>
+          </div>
+
+          <div id="slotsGridContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <!-- Slot 1 -->
+            <button type="button" onclick="selectSlotBtn(this, 'slot-1', '10:30 AM - 11:30 AM')" class="slot-card-btn p-3 rounded-2xl border border-gray-200 bg-white text-left transition flex items-center justify-between hover:border-blue-400 cursor-pointer">
+              <div>
+                <p class="text-xs font-bold">10:30 AM - 11:30 AM</p>
+                <p class="text-[11px] text-gray-500 mt-0.5">ક્ષમતા: ૨/૫ બુક થયેલ</p>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-800">ઉપલબ્ધ (૩ બાકી)</span>
+            </button>
+
+            <!-- Slot 2 (Default Selected) -->
+            <button type="button" onclick="selectSlotBtn(this, 'slot-2', '11:30 AM - 12:30 PM')" class="slot-card-btn p-3 rounded-2xl border border-blue-600 bg-[#003366] text-white ring-2 ring-blue-600 text-left transition flex items-center justify-between cursor-pointer">
+              <div>
+                <p class="text-xs font-bold">11:30 AM - 12:30 PM</p>
+                <p class="text-[11px] text-blue-200 mt-0.5">ક્ષમતા: ૩/૫ બુક થયેલ</p>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500 text-white">મધ્યમ (૨ બાકી)</span>
+            </button>
+
+            <!-- Slot 3 -->
+            <button type="button" disabled class="p-3 rounded-2xl border border-red-200 bg-red-50/60 text-gray-400 text-left flex items-center justify-between cursor-not-allowed opacity-75">
+              <div>
+                <p class="text-xs font-bold">12:30 PM - 01:30 PM</p>
+                <p class="text-[11px] text-gray-400 mt-0.5">ક્ષમતા: ૫/૫ બુક થયેલ</p>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">હાઉસફુલ (૫/૫)</span>
+            </button>
+
+            <!-- Lunch Break Blackout -->
+            <div class="col-span-1 sm:col-span-2 p-2.5 rounded-2xl bg-gray-200/80 border border-gray-300 text-gray-600 flex items-center justify-between">
+              <div class="flex items-center gap-2 text-xs font-bold">
+                <i class="fa-solid fa-utensils text-gray-500"></i>
+                <span>01:30 PM - 02:00 PM (રિસેસ)</span>
+              </div>
+              <span class="text-[11px] font-semibold bg-gray-300 text-gray-700 px-2 py-0.5 rounded-full">
+                ભોજન રિસેસ (બુકિંગ બંધ)
+              </span>
+            </div>
+
+            <!-- Slot 4 -->
+            <button type="button" onclick="selectSlotBtn(this, 'slot-4', '02:00 PM - 03:00 PM')" class="slot-card-btn p-3 rounded-2xl border border-gray-200 bg-white text-left transition flex items-center justify-between hover:border-blue-400 cursor-pointer">
+              <div>
+                <p class="text-xs font-bold">02:00 PM - 03:00 PM</p>
+                <p class="text-[11px] text-gray-500 mt-0.5">ક્ષમતા: ૧/૫ બુક થયેલ</p>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-800">ઉપલબ્ધ (૪ બાકી)</span>
+            </button>
+
+            <!-- Slot 5 -->
+            <button type="button" onclick="selectSlotBtn(this, 'slot-5', '03:00 PM - 04:00 PM')" class="slot-card-btn p-3 rounded-2xl border border-gray-200 bg-white text-left transition flex items-center justify-between hover:border-blue-400 cursor-pointer">
+              <div>
+                <p class="text-xs font-bold">03:00 PM - 04:00 PM</p>
+                <p class="text-[11px] text-gray-500 mt-0.5">ક્ષમતા: ૨/૫ બુક થયેલ</p>
+              </div>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-800">ઉપલબ્ધ (૩ બાકી)</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- STEP 4: SMART AUTO-COUNTER ROUTING -->
+        <section class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-4">
+          <div class="flex items-start gap-3">
+            <div id="slotRoutingBadge" class="w-9 h-9 rounded-xl bg-[#005A9C] text-white flex items-center justify-center font-bold text-sm shrink-0">
+              C2
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <h4 id="slotRoutingTitle" class="text-xs font-bold text-blue-900">
+                  સ્માર્ટ કાઉન્ટર રાઉટીંગ: કાઉન્ટર ૨ - જન સેવા પ્રમાણપત્રો
+                </h4>
+                <span class="bg-blue-200 text-blue-900 text-[10px] px-1.5 py-0.2 rounded font-bold">ઓટો-ડાયવર્ટ</span>
+              </div>
+              <p id="slotRoutingReason" class="text-xs text-blue-800 mt-1">
+                આવક અને જાતિના સત્તાવાર દાખલા માટે જન સેવા કાઉન્ટર ૨ ફાળવેલ છે.
+              </p>
+              <div class="mt-2 text-[11px] text-gray-600 flex items-center gap-2">
+                <i class="fa-solid fa-user-check text-gray-500"></i>
+                <span>ડેસ્ક અધિકારી: <strong id="slotRoutingOfficer">પી. આર. જાડેજા</strong></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="bg-gray-50 p-4 border-t border-gray-200 flex items-center justify-between">
+        <button onclick="closeSlotBookingModal()" class="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-200 transition cursor-pointer">
+          રદ કરો (Cancel)
+        </button>
+        <button id="slotConfirmBtn" onclick="confirmSlotBooking()" class="px-5 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 shadow-md bg-[#003366] hover:bg-[#002244] text-white transition cursor-pointer">
+          <span>ટોકન સ્લોટ કન્ફર્મ કરો</span>
+          <i class="fa-solid fa-arrow-right text-[#FF9933]"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 3 MODAL 2: DIGITAL OFFLINE QR TOKEN PASS               -->
+  <!-- ============================================================ -->
+  <div id="digitalTokenPassModal" class="hidden fixed inset-0 bg-[#003366]/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border-2 border-[#003366]/20 overflow-hidden flex flex-col max-h-[92vh] my-auto">
+      
+      <!-- Official Pass Header with Tricolor -->
+      <div class="bg-gradient-to-r from-[#003366] via-[#005A9C] to-[#003366] text-white p-4 sm:p-5 relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-1.5 flex">
+          <div class="flex-1 bg-[#FF9933]"></div>
+          <div class="flex-1 bg-white"></div>
+          <div class="flex-1 bg-[#138808]"></div>
+        </div>
+
+        <div class="flex items-center justify-between mt-1">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 text-[#FF9933] text-2xl font-bold">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold tracking-widest uppercase bg-white/20 px-2 py-0.5 rounded text-white">
+                  GUJARAT GOV • GRTSA 2013
+                </span>
+                <span class="flex items-center gap-1 text-[10px] font-bold text-green-300">
+                  <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                  સક્રિય (Active)
+                </span>
+              </div>
+              <h2 class="text-base sm:text-lg font-bold text-white mt-0.5">
+                ઈ-જન સેવા સત્તાવાર ટોકન પાસ
+              </h2>
+              <p id="passOfficeName" class="text-xs text-blue-100">જન સેવા કેન્દ્ર • મામલતદાર કચેરી ગોંડલ</p>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <span class="text-[10px] uppercase font-bold text-blue-200 block">ટોકન ક્રમાંક</span>
+            <span id="passTokenNum" class="text-2xl sm:text-3xl font-extrabold font-mono text-[#FF9933]">
+              #A-42
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pass Body -->
+      <div class="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1">
+        
+        <!-- Citizen & Scheme summary -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-gray-50 p-3.5 rounded-2xl border border-gray-200">
+          <div>
+            <span class="text-[11px] font-semibold text-gray-500 block">નાગરિકનું નામ (Citizen Name)</span>
+            <span class="text-sm font-bold text-gray-900">Mohanbhai Patel</span>
+          </div>
+          <div>
+            <span class="text-[11px] font-semibold text-gray-500 block">યોજના / સેવા (Service)</span>
+            <span id="passSchemeName" class="text-sm font-bold text-[#003366]">આવક પ્રમાણપત્ર સેવા</span>
+          </div>
+        </div>
+
+        <!-- QR Code & Office Details Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+          
+          <!-- QR container -->
+          <div class="sm:col-span-5 flex flex-col items-center justify-center p-4 bg-blue-50/50 rounded-2xl border border-blue-200 text-center">
+            <div class="bg-white p-3 rounded-2xl shadow-md border border-gray-200">
+              <div class="w-32 h-32 bg-white rounded-xl flex flex-col justify-between">
+                <div class="flex justify-between">
+                  <div class="w-7 h-7 border-4 border-[#003366] rounded-sm p-0.5"><div class="w-full h-full bg-[#003366]"></div></div>
+                  <div class="w-7 h-7 border-4 border-[#003366] rounded-sm p-0.5"><div class="w-full h-full bg-[#003366]"></div></div>
+                </div>
+                <div class="qr-pattern flex-1 my-1"></div>
+                <div class="flex justify-between items-end">
+                  <div class="w-7 h-7 border-4 border-[#003366] rounded-sm p-0.5"><div class="w-full h-full bg-[#003366]"></div></div>
+                  <span class="text-[8px] font-mono font-bold text-[#003366]">QLESS-GP</span>
+                </div>
+              </div>
+            </div>
+            <span id="passQrSub" class="text-[10px] font-mono text-gray-500 mt-2">કચેરી સ્કેનર ID: QLESS-A42-GP</span>
+            <span class="text-[10px] font-bold text-green-700 bg-green-100 px-2.5 py-0.5 rounded-full mt-1">✓ ઑફલાઇન QR માન્ય</span>
+          </div>
+
+          <!-- Counter info & slots -->
+          <div class="sm:col-span-7 space-y-2.5">
+            <div class="p-3 bg-blue-50 rounded-2xl border border-blue-200">
+              <h4 id="passCounterInfo" class="text-xs font-bold text-blue-950">કાઉન્ટર ૨: જન સેવા પ્રમાણપત્રો</h4>
+              <span class="text-[11px] text-gray-600 block mt-0.5">અધિકારી: <strong id="passOfficerInfo">પી. આર. જાડેજા</strong></span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div class="p-2.5 bg-gray-50 rounded-2xl border border-gray-200">
+                <span class="text-[10px] font-semibold text-gray-500 block">સમય સ્લોટ</span>
+                <span id="passSlotTime" class="text-xs font-bold text-gray-900 mt-0.5 block">11:30 AM - 12:30 PM</span>
+                <span id="passDate" class="text-[10px] text-gray-500">2026-10-07</span>
+              </div>
+              <div class="p-2.5 bg-gray-50 rounded-2xl border border-gray-200">
+                <span class="text-[10px] font-semibold text-gray-500 block">કતારમાં સ્થિતિ</span>
+                <span id="passAheadCount" class="text-xs font-bold text-[#138808] mt-0.5 block">આગળ ૨ નાગરિકો બાકી</span>
+                <span id="passWaitTime" class="text-[10px] text-gray-500">અંદાજિત રાહ: ~૧૮ મિનિટ</span>
+              </div>
+            </div>
+
+            <div class="p-2 bg-gray-50 rounded-xl border border-gray-200 text-xs text-gray-600 truncate">
+              📍 <span id="passLocation">ગોંડલ, જિલ્લો: રાજકોટ</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DYNAMIC FEATURE: "I'M RUNNING LATE" (+3 SLOTS SHIFTER) -->
+        <div class="p-3.5 bg-amber-50 border-2 border-amber-300 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="flex items-start gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 mt-0.5 text-sm">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="text-xs font-bold text-amber-950">કચેરી પહોંચવામાં મોડું થાય છે? (Running Late?)</h4>
+                <span id="passLateBadge" class="hidden bg-amber-200 text-amber-900 text-[10px] font-bold px-2 py-0.2 rounded-full"></span>
+              </div>
+              <p class="text-[11px] text-amber-800 mt-0.5">
+                એક ક્લિકમાં ટોકન ૩ સ્લોટ (+૩૬ મિનિટ) આગળ ખસેડો જેથી કાઉન્ટર પર તમારો નંબર કેન્સલ ન થાય!
+              </p>
+            </div>
+          </div>
+
+          <button type="button" onclick="shiftRunningLatePass()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition active:scale-95 shrink-0 cursor-pointer">
+            <i class="fa-solid fa-rotate-right"></i>
+            <span>+૩ સ્લોટ ખસેડો (+36m)</span>
+          </button>
+        </div>
+
+        <!-- Pass Footer Actions -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-200">
+          <div class="flex items-center gap-2">
+            <button onclick="printTokenPass()" class="px-3.5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer">
+              <i class="fa-solid fa-print"></i>
+              <span>પ્રિન્ટ / PDF</span>
+            </button>
+            <button onclick="sharePassOnWhatsApp()" class="px-3.5 py-2 rounded-xl bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer">
+              <i class="fa-brands fa-whatsapp text-sm"></i>
+              <span>વોટ્સએપ શેર</span>
+            </button>
+          </div>
+
+          <button onclick="closeDigitalTokenPassModal()" class="px-4 py-2 rounded-xl bg-[#003366] hover:bg-[#002244] text-white text-xs font-bold transition ml-auto cursor-pointer">
+            ડેશબોર્ડ પર જાઓ
+          </button>
+        </div>
+
+      </div>
+
     </div>
   </div>
 

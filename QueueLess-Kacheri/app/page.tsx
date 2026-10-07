@@ -5,7 +5,7 @@ import {
   ShieldCheck, MapPin, Lock, Clock, Search, ArrowRight, 
   RotateCcw, Volume2, QrCode, Ticket, Brain, Crosshair, 
   Users, Building, Award, Bell, CheckCircle2, ChevronDown, Download,
-  Layers, ArrowLeft
+  Layers, ArrowLeft, Calendar
 } from 'lucide-react';
 import { triggerHaptic } from '@/lib/haptics';
 import { speakGuidance } from '@/lib/voice';
@@ -13,6 +13,8 @@ import { PwaInstallBanner } from '@/components/PwaInstallBanner';
 import { SchemesCatalog } from '@/components/SchemesCatalog';
 import { SchemeDrawer } from '@/components/SchemeDrawer';
 import { CameraScannerModal } from '@/components/CameraScannerModal';
+import { SlotBookingModal, BookingDetails } from '@/components/SlotBookingModal';
+import { DigitalTokenPass } from '@/components/DigitalTokenPass';
 import { SchemeItem, ALL_YOJANAS } from '@/lib/schemes-data';
 
 export default function Home() {
@@ -30,6 +32,12 @@ export default function Home() {
   const [verifiedSchemes, setVerifiedSchemes] = useState<Record<string, boolean>>({});
   const [pendingTokenScheme, setPendingTokenScheme] = useState<SchemeItem | null>(null);
   const [loginPromptReason, setLoginPromptReason] = useState<string | null>(null);
+
+  // Phase 3: Slot Booking & Digital Pass State
+  const [slotModalOpen, setSlotModalOpen] = useState(false);
+  const [tokenPassModalOpen, setTokenPassModalOpen] = useState(false);
+  const [activeBooking, setActiveBooking] = useState<BookingDetails | null>(null);
+  const [lateShiftMinutes, setLateShiftMinutes] = useState<number>(0);
 
   const [currentUser, setCurrentUser] = useState<{
     name: string;
@@ -60,17 +68,17 @@ export default function Home() {
 
     setCurrentUser(userObj);
 
-    // If citizen was collecting a token for a scheme, automatically finalize it!
+    // If citizen was collecting a token for a scheme, open Slot Booking Modal!
     if (pendingTokenScheme) {
-      const schemeTitle = pendingTokenScheme.titleGu;
-      setVerifiedSchemes(prev => ({ ...prev, [pendingTokenScheme.id]: true }));
+      const targetScheme = pendingTokenScheme;
+      setVerifiedSchemes(prev => ({ ...prev, [targetScheme.id]: true }));
+      setActiveScheme(targetScheme);
       setPendingTokenScheme(null);
       setLoginPromptReason(null);
       setTimeout(() => {
         triggerHaptic('success');
-        speakGuidance(`લૉગિન સફળ! ${schemeTitle} માટે તમારો ટોકન ફાળવવામાં આવ્યો છે.`);
-        alert(`🎉 લૉગિન સફળ! ${userObj.name} માટે "${schemeTitle}" નો સત્તાવાર ટોકન ${userObj.token} ફાળવવામાં આવ્યો છે.`);
-        setView('dashboard');
+        speakGuidance(`લૉગિન સફળ! હવે ${targetScheme.titleGu} માટે તમારો કચેરી સ્લોટ અને કાઉન્ટર પસંદ કરો.`);
+        setSlotModalOpen(true);
       }, 200);
     } else {
       setView('dashboard');
@@ -90,15 +98,15 @@ export default function Home() {
     setCurrentUser(userObj);
 
     if (pendingTokenScheme) {
-      const schemeTitle = pendingTokenScheme.titleGu;
-      setVerifiedSchemes(prev => ({ ...prev, [pendingTokenScheme.id]: true }));
+      const targetScheme = pendingTokenScheme;
+      setVerifiedSchemes(prev => ({ ...prev, [targetScheme.id]: true }));
+      setActiveScheme(targetScheme);
       setPendingTokenScheme(null);
       setLoginPromptReason(null);
       setTimeout(() => {
         triggerHaptic('success');
-        speakGuidance(`લૉગિન સફળ! ${schemeTitle} માટે તમારો ટોકન ફાળવવામાં આવ્યો છે.`);
-        alert(`🎉 લૉગિન સફળ! ${userObj.name} માટે "${schemeTitle}" નો સત્તાવાર ટોકન ${userObj.token} ફાળવવામાં આવ્યો છે.`);
-        setView('dashboard');
+        speakGuidance(`લૉગિન સફળ! હવે ${targetScheme.titleGu} માટે તમારો કચેરી સ્લોટ અને કાઉન્ટર પસંદ કરો.`);
+        setSlotModalOpen(true);
       }, 200);
     } else {
       setView('dashboard');
@@ -109,6 +117,8 @@ export default function Home() {
     triggerHaptic('warning');
     setCurrentUser(null);
     setPendingTokenScheme(null);
+    setActiveBooking(null);
+    setLateShiftMinutes(0);
     setLoginPromptReason(null);
     setDemoMenuOpen(false);
     setView('landing');
@@ -116,7 +126,9 @@ export default function Home() {
 
   const handleRunningLate = () => {
     triggerHaptic('warning');
-    alert("⚠️ Your token has been deferred by 3 slots (+36 minutes). New arrival time: 11:56 AM. Counter will not skip your position.");
+    setLateShiftMinutes(prev => prev + 36);
+    speakGuidance("તમારો ટોકન ૩ સ્લોટ પાછળ ખસેડવામાં આવ્યો છે. કાઉન્ટર તમારો નંબર છોડશે નહીં.");
+    alert("⚠️ મોડું થવાની વિનંતી મંજૂર!\n\nતમારો ટોકન ૩ સ્લોટ (+૩૬ મિનિટ) આગળ ધકેલવામાં આવ્યો છે. નવો અંદાજિત સમય અપડેટ થયો છે. કાઉન્ટર અધિકારી તમારો વારો સ્કીપ નહીં કરે.");
   };
 
   const handleSelectScheme = (scheme: SchemeItem) => {
@@ -131,6 +143,7 @@ export default function Home() {
 
   // VALIDATION CHECK: Require Login to Collect Token from Drawer
   const handleCollectToken = (scheme: SchemeItem) => {
+    setActiveScheme(scheme);
     if (!currentUser) {
       triggerHaptic('warning');
       speakGuidance("ટોકન મેળવવા માટે પહેલાં નાગરિક લૉગિન કરવું ફરજિયાત છે.");
@@ -141,10 +154,10 @@ export default function Home() {
       return;
     }
 
-    triggerHaptic('success');
+    triggerHaptic('tap');
     setDrawerOpen(false);
-    alert(`🎉 કચેરી ટોકન ફાળવવામાં આવ્યો! ${currentUser.name} માટે "${scheme.titleGu}" નો ટોકન ${currentUser.token} સક્રિય છે.`);
-    setView('dashboard');
+    // Open Phase 3 Slot & Counter selection!
+    setSlotModalOpen(true);
   };
 
   // VALIDATION CHECK: Require Login to Collect Token from Camera Scanner
@@ -166,7 +179,25 @@ export default function Home() {
     setScannerOpen(false);
     setDrawerOpen(false);
     triggerHaptic('success');
-    alert(`🎉 દસ્તાવેજ પ્રમાણિત! ${currentUser.name} માટે ${activeScheme.titleGu} નો ટોકન ${currentUser.token} જારી કરવામાં આવ્યો છે.`);
+    // Open Phase 3 Slot Booking!
+    setSlotModalOpen(true);
+  };
+
+  // Confirm Slot Booking from Modal
+  const handleConfirmBooking = (details: BookingDetails) => {
+    setActiveBooking(details);
+    setSlotModalOpen(false);
+    setCurrentUser(prev => prev ? {
+      ...prev,
+      area: `${details.taluka.nameGu}, ${details.district.nameGu}`,
+      token: details.tokenNumber
+    } : {
+      name: 'Mohanbhai Patel',
+      role: 'Citizen',
+      area: `${details.taluka.nameGu}, ${details.district.nameGu}`,
+      token: details.tokenNumber
+    });
+    setTokenPassModalOpen(true);
     setView('dashboard');
   };
 
@@ -609,10 +640,16 @@ export default function Home() {
 
                   <div className="mt-2">
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Virtual Token</p>
-                    <h2 className="text-4xl sm:text-5xl font-black text-[#FF9933] tracking-tight mt-0.5">#A-42</h2>
+                    <h2 className="text-4xl sm:text-5xl font-black text-[#FF9933] tracking-tight mt-0.5">
+                      {activeBooking ? activeBooking.tokenNumber : (currentUser?.token || '#A-42')}
+                    </h2>
                     <div className="mt-2">
-                      <p className="text-xs font-black text-[#003366]">Certificate Services</p>
-                      <p className="text-[11px] text-slate-500 font-medium">Caste & Income Certificate Verification</p>
+                      <p className="text-xs font-black text-[#003366]">
+                        {activeBooking ? `કાઉન્ટર ${activeBooking.counterNumber} • ${activeBooking.counterNameGu}` : 'Certificate Services'}
+                      </p>
+                      <p className="text-[11px] text-slate-500 font-medium">
+                        {activeBooking ? `અધિકારી: ${activeBooking.officerName}` : 'Caste & Income Certificate Verification'}
+                      </p>
                     </div>
                   </div>
 
@@ -625,18 +662,26 @@ export default function Home() {
                       <div className="qr-pattern flex-1 my-1.5" />
                       <div className="flex justify-between items-end">
                         <div className="w-8 h-8 border-4 border-[#003366] rounded-sm p-0.5"><div className="w-full h-full bg-[#003366]" /></div>
-                        <span className="text-[9px] font-mono font-black text-[#003366]">Qless-A42-GP</span>
+                        <span className="text-[9px] font-mono font-black text-[#003366]">
+                          {activeBooking ? `Qless-${activeBooking.tokenNumber.replace('#','')}-GP` : 'Qless-A42-GP'}
+                        </span>
                       </div>
                     </div>
-                    <p className="text-[11px] font-mono font-bold text-slate-500 mt-2">Qless-A42-GP (Encrypted Token ID)</p>
+                    <p className="text-[11px] font-mono font-bold text-slate-500 mt-2">
+                      {activeBooking ? `${activeBooking.taluka.officeNameGu}` : 'Qless-A42-GP (Encrypted Token ID)'}
+                    </p>
                   </div>
 
                   <div className="text-center space-y-1">
                     <p className="text-sm font-extrabold text-[#003366]">
-                      Arrive by <span className="text-red-600 font-black">11:20 AM</span>
+                      Arrive by <span className="text-red-600 font-black">
+                        {activeBooking 
+                          ? (lateShiftMinutes > 0 ? `${activeBooking.slot.startTime} (+${lateShiftMinutes}m)` : activeBooking.slot.startTime) 
+                          : (lateShiftMinutes > 0 ? `11:56 AM (+${lateShiftMinutes}m)` : '11:20 AM')}
+                      </span>
                     </p>
                     <p className="text-xs font-bold text-[#FF9933]">
-                      ⏱️ 12:35 remaining (Traffic Buffer included)
+                      ⏱️ {activeBooking ? activeBooking.slot.timeRange : '11:30 AM - 12:30 PM'} {lateShiftMinutes > 0 ? `(ખસેડેલ +${lateShiftMinutes}m)` : '(Traffic Buffer included)'}
                     </p>
                   </div>
 
@@ -651,7 +696,8 @@ export default function Home() {
                     <button
                       onClick={() => {
                         triggerHaptic('tap');
-                        speakGuidance("નમસ્તે મોહનભાઈ, તમારો ટોકન નંબર એ-૪૨ સક્રિય છે. કૃપા કરીને ૧૧:૨૦ સુધીમાં કાઉન્ટર પર પહોંચો.");
+                        const tokenStr = activeBooking ? activeBooking.tokenNumber : '#A-42';
+                        speakGuidance(`નમસ્તે ${currentUser?.name || 'મોહનભાઈ'}, તમારો ટોકન નંબર ${tokenStr} સક્રિય છે. કૃપા કરીને સમયસર કાઉન્ટર પર પહોંચો.`);
                       }}
                       className="bg-blue-50 hover:bg-blue-100 text-[#003366] border border-blue-200 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 active:scale-95 transition"
                     >
@@ -660,9 +706,26 @@ export default function Home() {
                     </button>
                   </div>
 
+                  {activeBooking && (
+                    <div className="mt-3">
+                      <button
+                        onClick={() => {
+                          triggerHaptic('tap');
+                          setTokenPassModalOpen(true);
+                        }}
+                        className="w-full bg-[#003366] hover:bg-[#002244] text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm transition"
+                      >
+                        <Ticket className="w-4 h-4 text-[#FF9933]" />
+                        <span>સત્તાવાર ડિજિટલ ટોકન પાસ જુઓ (View Pass)</span>
+                      </button>
+                    </div>
+                  )}
+
                   <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
                     <span className="text-slate-500">Your Queue Position</span>
-                    <span className="text-xl font-black text-[#003366] bg-[#F5F7FA] px-3 py-1 rounded-xl">14</span>
+                    <span className="text-xl font-black text-[#003366] bg-[#F5F7FA] px-3 py-1 rounded-xl">
+                      {lateShiftMinutes > 0 ? '17' : '14'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -677,7 +740,9 @@ export default function Home() {
                       <h3 className="text-base font-extrabold text-[#003366]">Live Queue Radar</h3>
                       <p className="text-xs font-bold text-slate-500 mt-0.5 flex items-center gap-1">
                         <MapPin className="w-3.5 h-3.5 text-[#FF9933]" />
-                        <span>Current Office: Gondal Jan Seva Kendra, Rajkot</span>
+                        <span>
+                          Current Office: {activeBooking ? `${activeBooking.taluka.officeNameGu}, ${activeBooking.district.nameGu}` : 'Gondal Jan Seva Kendra, Rajkot'}
+                        </span>
                       </p>
                     </div>
                     <span className="text-[10px] font-bold bg-[#F5F7FA] text-slate-600 px-2 py-1 rounded-lg">Real-Time</span>
@@ -897,6 +962,30 @@ export default function Home() {
           onVerifiedSuccess={handleVerificationSuccess}
           isLoggedIn={!!currentUser}
         />
+      )}
+
+      {/* PHASE 3: 33 DISTRICTS & TALUKAS JURISDICTION + CAPPED SLOT ENGINE */}
+      <SlotBookingModal
+        isOpen={slotModalOpen}
+        onClose={() => setSlotModalOpen(false)}
+        scheme={activeScheme}
+        onConfirm={handleConfirmBooking}
+        lang={lang}
+      />
+
+      {/* PHASE 3: DIGITAL TOKEN PASS MODAL */}
+      {tokenPassModalOpen && activeBooking && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto animate-in fade-in">
+          <div className="w-full max-w-2xl max-h-[92vh] overflow-y-auto">
+            <DigitalTokenPass
+              booking={activeBooking}
+              scheme={activeScheme}
+              citizenName={currentUser?.name || 'Mohanbhai Patel'}
+              onClose={() => setTokenPassModalOpen(false)}
+              lang={lang}
+            />
+          </div>
+        </div>
       )}
 
       {/* PWA 1-CLICK INSTALL BANNER */}
